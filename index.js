@@ -9,6 +9,9 @@
  * - Baileys Library by @adiwajshing
  * - Pair Code implementation inspired by TechGod143 & DGXEON
  */
+// مشرف العملية: بيعيد تشغيل البوت بعد .تحديث او اي انهيار (بدل ما السيرفر يفضل Offline)
+if (require('./lib/supervisor').start()) return;
+
 require('./settings')
 const { Boom } = require('@hapi/boom')
 const fs = require('fs')

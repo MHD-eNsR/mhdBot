@@ -1,0 +1,642 @@
+{
+ "_note": "تقدر تزود شخصيات: كل شخصية ليها name وقايمة tags من مفاتيح الاسئلة تحت",
+ "questions": {
+  "real": "هل الشخصية حقيقية يعني مش كرتونية ولا خيالية؟",
+  "male": "هل الشخصية ذكر؟",
+  "female": "هل الشخصية أنثى؟",
+  "alive": "هل الشخصية لسه عايشة؟",
+  "arab": "هل الشخصية عربية؟",
+  "egyptian": "هل الشخصية مصرية؟",
+  "american": "هل الشخصية أمريكية؟",
+  "european": "هل الشخصية أوروبية؟",
+  "footballer": "هل الشخصية لاعب كرة قدم؟",
+  "worldcup": "هل الشخصية فازت بكأس العالم؟",
+  "singer": "هل الشخصية مطرب أو مطربة؟",
+  "actor": "هل الشخصية ممثل أو ممثلة؟",
+  "scientist": "هل الشخصية عالم أو مخترع؟",
+  "business": "هل الشخصية رجل أعمال أو صاحب شركة كبيرة؟",
+  "tech": "هل للشخصية علاقة بالتكنولوجيا والشركات التقنية؟",
+  "historical": "هل الشخصية من التاريخ؟",
+  "cartoon": "هل الشخصية كرتونية؟",
+  "anime": "هل الشخصية من الأنمي؟",
+  "game": "هل الشخصية من لعبة فيديو؟",
+  "superhero": "هل الشخصية بطل خارق؟",
+  "powers": "هل الشخصية عندها قوى خارقة؟",
+  "animal": "هل الشخصية حيوان؟",
+  "movies": "هل ظهرت الشخصية في أفلام؟",
+  "glasses": "هل الشخصية بتلبس نظارة؟",
+  "hat": "هل الشخصية بتلبس قبعة أو طاقية؟",
+  "disney": "هل الشخصية من أفلام ديزني؟"
+ },
+ "characters": [
+  {
+   "name": "سبونج بوب",
+   "tags": [
+    "cartoon",
+    "male",
+    "movies"
+   ]
+  },
+  {
+   "name": "توم",
+   "tags": [
+    "cartoon",
+    "male",
+    "animal"
+   ]
+  },
+  {
+   "name": "جيري",
+   "tags": [
+    "cartoon",
+    "male",
+    "animal"
+   ]
+  },
+  {
+   "name": "ميكي ماوس",
+   "tags": [
+    "cartoon",
+    "male",
+    "animal",
+    "disney",
+    "american"
+   ]
+  },
+  {
+   "name": "ميني ماوس",
+   "tags": [
+    "cartoon",
+    "female",
+    "animal",
+    "disney"
+   ]
+  },
+  {
+   "name": "سوبرمان",
+   "tags": [
+    "superhero",
+    "male",
+    "powers",
+    "movies",
+    "american"
+   ]
+  },
+  {
+   "name": "باتمان",
+   "tags": [
+    "superhero",
+    "male",
+    "movies",
+    "american"
+   ]
+  },
+  {
+   "name": "سبايدرمان",
+   "tags": [
+    "superhero",
+    "male",
+    "powers",
+    "movies",
+    "american"
+   ]
+  },
+  {
+   "name": "آيرون مان",
+   "tags": [
+    "superhero",
+    "male",
+    "movies",
+    "tech",
+    "business",
+    "american"
+   ]
+  },
+  {
+   "name": "هالك",
+   "tags": [
+    "superhero",
+    "male",
+    "powers",
+    "movies",
+    "american"
+   ]
+  },
+  {
+   "name": "كابتن أمريكا",
+   "tags": [
+    "superhero",
+    "male",
+    "powers",
+    "movies",
+    "american"
+   ]
+  },
+  {
+   "name": "وندر وومان",
+   "tags": [
+    "superhero",
+    "female",
+    "powers",
+    "movies"
+   ]
+  },
+  {
+   "name": "ناروتو",
+   "tags": [
+    "anime",
+    "male",
+    "powers"
+   ]
+  },
+  {
+   "name": "لوفي",
+   "tags": [
+    "anime",
+    "male",
+    "powers"
+   ]
+  },
+  {
+   "name": "غوكو",
+   "tags": [
+    "anime",
+    "male",
+    "powers"
+   ]
+  },
+  {
+   "name": "كونان",
+   "tags": [
+    "anime",
+    "male",
+    "glasses"
+   ]
+  },
+  {
+   "name": "بيكاتشو",
+   "tags": [
+    "anime",
+    "game",
+    "animal",
+    "powers"
+   ]
+  },
+  {
+   "name": "ماريو",
+   "tags": [
+    "game",
+    "male",
+    "hat"
+   ]
+  },
+  {
+   "name": "سونيك",
+   "tags": [
+    "game",
+    "male",
+    "animal"
+   ]
+  },
+  {
+   "name": "شريك",
+   "tags": [
+    "cartoon",
+    "male",
+    "movies"
+   ]
+  },
+  {
+   "name": "إلسا",
+   "tags": [
+    "cartoon",
+    "female",
+    "powers",
+    "movies",
+    "disney"
+   ]
+  },
+  {
+   "name": "سندريلا",
+   "tags": [
+    "cartoon",
+    "female",
+    "movies",
+    "disney"
+   ]
+  },
+  {
+   "name": "سيمبا",
+   "tags": [
+    "cartoon",
+    "male",
+    "animal",
+    "movies",
+    "disney"
+   ]
+  },
+  {
+   "name": "هاري بوتر",
+   "tags": [
+    "movies",
+    "male",
+    "powers",
+    "glasses",
+    "european"
+   ]
+  },
+  {
+   "name": "الجوكر",
+   "tags": [
+    "movies",
+    "male",
+    "american"
+   ]
+  },
+  {
+   "name": "ليونيل ميسي",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "footballer",
+    "worldcup"
+   ]
+  },
+  {
+   "name": "كريستيانو رونالدو",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "footballer",
+    "european"
+   ]
+  },
+  {
+   "name": "محمد صلاح",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "footballer",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "نيمار",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "footballer"
+   ]
+  },
+  {
+   "name": "كيليان مبابي",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "footballer",
+    "european",
+    "worldcup"
+   ]
+  },
+  {
+   "name": "زين الدين زيدان",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "footballer",
+    "european",
+    "worldcup"
+   ]
+  },
+  {
+   "name": "دييغو مارادونا",
+   "tags": [
+    "real",
+    "male",
+    "footballer",
+    "worldcup"
+   ]
+  },
+  {
+   "name": "بيليه",
+   "tags": [
+    "real",
+    "male",
+    "footballer",
+    "worldcup"
+   ]
+  },
+  {
+   "name": "محمد أبو تريكة",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "footballer",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "عمرو دياب",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "singer",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "أم كلثوم",
+   "tags": [
+    "real",
+    "female",
+    "singer",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "عبد الحليم حافظ",
+   "tags": [
+    "real",
+    "male",
+    "singer",
+    "actor",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "فيروز",
+   "tags": [
+    "real",
+    "female",
+    "alive",
+    "singer",
+    "arab"
+   ]
+  },
+  {
+   "name": "عادل إمام",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "actor",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "أحمد زكي",
+   "tags": [
+    "real",
+    "male",
+    "actor",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "يسرا",
+   "tags": [
+    "real",
+    "female",
+    "alive",
+    "actor",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "محمد رمضان",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "actor",
+    "singer",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "تامر حسني",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "singer",
+    "actor",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "شيرين عبد الوهاب",
+   "tags": [
+    "real",
+    "female",
+    "alive",
+    "singer",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "نانسي عجرم",
+   "tags": [
+    "real",
+    "female",
+    "alive",
+    "singer",
+    "arab"
+   ]
+  },
+  {
+   "name": "كاظم الساهر",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "singer",
+    "arab"
+   ]
+  },
+  {
+   "name": "محمد منير",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "singer",
+    "actor",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "أحمد حلمي",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "actor",
+    "arab",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "إيلون ماسك",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "business",
+    "tech",
+    "american"
+   ]
+  },
+  {
+   "name": "بيل جيتس",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "business",
+    "tech",
+    "american",
+    "glasses"
+   ]
+  },
+  {
+   "name": "ستيف جوبز",
+   "tags": [
+    "real",
+    "male",
+    "business",
+    "tech",
+    "american",
+    "glasses"
+   ]
+  },
+  {
+   "name": "مارك زوكربيرج",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "business",
+    "tech",
+    "american"
+   ]
+  },
+  {
+   "name": "ألبرت أينشتاين",
+   "tags": [
+    "real",
+    "male",
+    "scientist",
+    "european",
+    "historical"
+   ]
+  },
+  {
+   "name": "إسحاق نيوتن",
+   "tags": [
+    "real",
+    "male",
+    "scientist",
+    "european",
+    "historical"
+   ]
+  },
+  {
+   "name": "نابليون بونابرت",
+   "tags": [
+    "real",
+    "male",
+    "historical",
+    "european",
+    "hat"
+   ]
+  },
+  {
+   "name": "كليوباترا",
+   "tags": [
+    "real",
+    "female",
+    "historical",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "توت عنخ آمون",
+   "tags": [
+    "real",
+    "male",
+    "historical",
+    "egyptian"
+   ]
+  },
+  {
+   "name": "مايكل جاكسون",
+   "tags": [
+    "real",
+    "male",
+    "singer",
+    "american"
+   ]
+  },
+  {
+   "name": "ليوناردو دي كابريو",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "actor",
+    "american"
+   ]
+  },
+  {
+   "name": "توم كروز",
+   "tags": [
+    "real",
+    "male",
+    "alive",
+    "actor",
+    "american"
+   ]
+  },
+  {
+   "name": "أنجلينا جولي",
+   "tags": [
+    "real",
+    "female",
+    "alive",
+    "actor",
+    "american"
+   ]
+  },
+  {
+   "name": "تايلور سويفت",
+   "tags": [
+    "real",
+    "female",
+    "alive",
+    "singer",
+    "american"
+   ]
+  }
+ ]
+}

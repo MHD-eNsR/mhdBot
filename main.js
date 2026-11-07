@@ -54,6 +54,7 @@ const warnCommand = require('./commands/warn');
 const warningsCommand = require('./commands/warnings');
 const ttsCommand = require('./commands/tts');
 const { tictactoeCommand, handleTicTacToeMove } = require('./commands/tictactoe');
+const genieCommand = require('./commands/genie');
 const { incrementMessageCount, topMembers } = require('./commands/topmembers');
 const ownerCommand = require('./commands/owner');
 const deleteCommand = require('./commands/delete');
@@ -627,6 +628,10 @@ async function handleMessages(sock, messageUpdate, printLog) {
             case isCmd(userMessage, '.اكساو') || isCmd(userMessage, '.اكساو'):
                 const tttText = userMessage.split(' ').slice(1).join(' ');
                 await tictactoeCommand(sock, chatId, senderId, tttText);
+                break;
+            case isCmd(userMessage, '.مارد'):
+                await genieCommand(sock, chatId, message, senderId, argsOf(userMessage));
+                commandExecuted = true;
                 break;
             case isCmd(userMessage, '.حرك'):
                 const position = parseInt(userMessage.split(' ')[1]);
