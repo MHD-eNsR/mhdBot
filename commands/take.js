@@ -9,7 +9,7 @@ async function takeCommand(sock, chatId, message, args) {
         // Check if message is a reply to a sticker
         const quotedMessage = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
         if (!quotedMessage?.stickerMessage) {
-            await sock.sendMessage(chatId, { text: 'رد على ملصق بالامر .خدملصق واسم الباكيدج' });
+            await sock.sendMessage(chatId, { text: 'رد على ملصق بالامر .خد-ملصق واسم الباكيدج' });
             return;
         }
 

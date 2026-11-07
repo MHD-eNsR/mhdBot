@@ -36,7 +36,7 @@ async function reminiCommand(sock, chatId, message, args) {
                 imageUrl = url;
             } else {
                 return sock.sendMessage(chatId, { 
-                    text: 'الرابط غلط\n\nطريقة الاستخدام .حسنالصورة https://example.com/image.jpg' 
+                    text: 'الرابط غلط\n\nطريقة الاستخدام .حسن-الصورة https://example.com/image.jpg' 
                 }, { quoted: message });
             }
         } else {
@@ -45,7 +45,7 @@ async function reminiCommand(sock, chatId, message, args) {
             
             if (!imageUrl) {
                 return sock.sendMessage(chatId, { 
-                    text: 'امر تحسين الصور\n\nطريقة الاستخدام\n• .حسنالصورة وبعدها رابط الصورة\n• رد على صورة بالامر .حسنالصورة\n• ابعت صورة وفي الكابشن .حسنالصورة\n\nمثال .حسنالصورة https://example.com/image.jpg' 
+                    text: 'امر تحسين الصور\n\nطريقة الاستخدام\n• .حسن-الصورة وبعدها رابط الصورة\n• رد على صورة بالامر .حسن-الصورة\n• ابعت صورة وفي الكابشن .حسن-الصورة\n\nمثال .حسن-الصورة https://example.com/image.jpg' 
                 }, { quoted: message });
             }
         }

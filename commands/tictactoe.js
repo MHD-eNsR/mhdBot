@@ -63,7 +63,7 @@ async function tictactoeCommand(sock, chatId, senderId, text) {
             if (text) room.name = text;
 
             await sock.sendMessage(chatId, { 
-                text: `مستني الخصم\nاكتب .اكسو ${text || ''} عشان تدخل اللعبة`
+                text: `مستني الخصم\nاكتب .اكس-او ${text || ''} عشان تدخل اللعبة`
             });
 
             games[room.id] = room;

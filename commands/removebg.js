@@ -42,7 +42,7 @@ module.exports = {
                     imageUrl = url;
                 } else {
                     return sock.sendMessage(chatId, { 
-                        text: 'الرابط غلط\n\nطريقة الاستخدام .شيلالخلفية https://example.com/image.jpg' 
+                        text: 'الرابط غلط\n\nطريقة الاستخدام .شيل-الخلفية https://example.com/image.jpg' 
                     }, { quoted: message });
                 }
             } else {
@@ -51,7 +51,7 @@ module.exports = {
                 
                 if (!imageUrl) {
                     return sock.sendMessage(chatId, { 
-                        text: 'امر شيل الخلفية\n\nطريقة الاستخدام\n• .شيلالخلفية وبعدها رابط الصورة\n• رد على صورة بالامر .شيلالخلفية\n• ابعت صورة وفي الكابشن .شيلالخلفية\n\nمثال .شيلالخلفية https://example.com/image.jpg' 
+                        text: 'امر شيل الخلفية\n\nطريقة الاستخدام\n• .شيل-الخلفية وبعدها رابط الصورة\n• رد على صورة بالامر .شيل-الخلفية\n• ابعت صورة وفي الكابشن .شيل-الخلفية\n\nمثال .شيل-الخلفية https://example.com/image.jpg' 
                     }, { quoted: message });
                 }
             }

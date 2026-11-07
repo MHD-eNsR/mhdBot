@@ -96,7 +96,7 @@ async function handleAntideleteCommand(sock, chatId, message, match) {
     } else if (match === 'off') {
         config.enabled = false;
     } else {
-        return sock.sendMessage(chatId, { text: 'الامر غلط اكتب .منعمسح عشان تشوف طريقة الاستخدام' }, {quoted:message});
+        return sock.sendMessage(chatId, { text: 'الامر غلط اكتب .منع-مسح عشان تشوف طريقة الاستخدام' }, {quoted:message});
     }
 
     saveAntideleteConfig(config);

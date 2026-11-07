@@ -27,7 +27,7 @@ async function setGroupDescription(sock, chatId, senderId, text, message) {
     if (!check.ok) return;
     const desc = (text || '').trim();
     if (!desc) {
-        await sock.sendMessage(chatId, { text: 'اكتب .وصفالجروب وبعده الوصف الجديد' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'اكتب .وصف-الجروب وبعده الوصف الجديد' }, { quoted: message });
         return;
     }
     try {
@@ -43,7 +43,7 @@ async function setGroupName(sock, chatId, senderId, text, message) {
     if (!check.ok) return;
     const name = (text || '').trim();
     if (!name) {
-        await sock.sendMessage(chatId, { text: 'اكتب .اسمالجروب وبعده الاسم الجديد' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'اكتب .اسم-الجروب وبعده الاسم الجديد' }, { quoted: message });
         return;
     }
     try {
@@ -61,7 +61,7 @@ async function setGroupPhoto(sock, chatId, senderId, message) {
     const quoted = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
     const imageMessage = quoted?.imageMessage || quoted?.stickerMessage;
     if (!imageMessage) {
-        await sock.sendMessage(chatId, { text: 'رد على صورة او ملصق بامر .صورةالجروب' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'رد على صورة او ملصق بامر .صورة-الجروب' }, { quoted: message });
         return;
     }
     try {

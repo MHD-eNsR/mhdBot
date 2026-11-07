@@ -19,7 +19,7 @@ async function setProfilePicture(sock, chatId, msg) {
         const quotedMessage = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
         if (!quotedMessage) {
             await sock.sendMessage(chatId, { 
-                text: 'رد على صورة بالامر .صورةالبوت' 
+                text: 'رد على صورة بالامر .صورة-البوت' 
             });
             return;
         }

@@ -73,7 +73,7 @@ async function autoStatusCommand(sock, chatId, msg, args) {
             // Handle react subcommand
             if (!args[1]) {
                 await sock.sendMessage(chatId, { 
-                    text: 'حدد تشغيل او ايقاف للتفاعل\nاكتب .مشاهدةالحالات تفاعل تشغيل او ايقاف',
+                    text: 'حدد تشغيل او ايقاف للتفاعل\nاكتب .مشاهدة-الحالات تفاعل تشغيل او ايقاف',
                     ...channelInfo
                 });
                 return;
@@ -96,7 +96,7 @@ async function autoStatusCommand(sock, chatId, msg, args) {
                 });
             } else {
                 await sock.sendMessage(chatId, { 
-                    text: 'امر التفاعل غلط اكتب .مشاهدةالحالات تفاعل تشغيل او ايقاف',
+                    text: 'امر التفاعل غلط اكتب .مشاهدة-الحالات تفاعل تشغيل او ايقاف',
                     ...channelInfo
                 });
             }

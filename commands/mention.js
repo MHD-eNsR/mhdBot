@@ -154,7 +154,7 @@ async function mentionToggleCommand(sock, chatId, message, args, isOwner) {
 	if (!isOwner) return sock.sendMessage(chatId, { text: 'الامر ده لصاحب البوت والمساعدين بس' }, { quoted: message });
 	const onoff = (args || '').trim().toLowerCase();
 	if (!onoff || !['on','off'].includes(onoff)) {
-		return sock.sendMessage(chatId, { text: 'طريقة الاستخدام .منشنالبوت تشغيل او ايقاف' }, { quoted: message });
+		return sock.sendMessage(chatId, { text: 'طريقة الاستخدام .منشن-البوت تشغيل او ايقاف' }, { quoted: message });
 	}
 	const state = loadState();
 	state.enabled = onoff === 'on';

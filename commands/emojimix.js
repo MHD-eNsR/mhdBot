@@ -12,7 +12,7 @@ async function emojimixCommand(sock, chatId, msg) {
         const args = text.split(' ').slice(1);
         
         if (!args[0]) {
-            await sock.sendMessage(chatId, { text: 'مثال .دمجايموجي ايموجي زائد ايموجي' });
+            await sock.sendMessage(chatId, { text: 'مثال .دمج-ايموجي ايموجي زائد ايموجي' });
             return;
         }
 
@@ -94,7 +94,7 @@ async function emojimixCommand(sock, chatId, msg) {
     } catch (error) {
         console.error('Error in emojimix command:', error);
         await sock.sendMessage(chatId, { 
-            text: 'معرفتش ادمج الايموجيز اتأكد انك بتستخدم ايموجيز صح\n\nمثال .دمجايموجي ايموجي زائد ايموجي' 
+            text: 'معرفتش ادمج الايموجيز اتأكد انك بتستخدم ايموجيز صح\n\nمثال .دمج-ايموجي ايموجي زائد ايموجي' 
         });
     }
 }

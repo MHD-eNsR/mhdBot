@@ -19,7 +19,7 @@ async function stickerTelegramCommand(sock, chatId, msg) {
         
         if (!args[0]) {
             await sock.sendMessage(chatId, { 
-                text: 'اكتب رابط ملصقات تليجرام\n\nمثال .ملصقتليجرام https://t.me/addstickers/Porcientoreal' 
+                text: 'اكتب رابط ملصقات تليجرام\n\nمثال .ملصق-تليجرام https://t.me/addstickers/Porcientoreal' 
             });
             return;
         }

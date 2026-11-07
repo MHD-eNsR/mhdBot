@@ -57,7 +57,7 @@ async function autotypingCommand(sock, chatId, message) {
                 config.enabled = false;
             } else {
                 await sock.sendMessage(chatId, {
-                    text: 'الاختيار غلط اكتب .كتابةتلقائية تشغيل او ايقاف',
+                    text: 'الاختيار غلط اكتب .كتابة-تلقائية تشغيل او ايقاف',
                     contextInfo: {
                         forwardingScore: 1,
                         isForwarded: true,
