@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { COMMANDS } = require('../lib/arabic');
 const buttons = require('../lib/buttons');
-const { b, i, c, BAR } = require('../lib/style');
+const { b, i, c, BAR, fancy, footer } = require('../lib/style');
 
 const NEWSLETTER_JID = '120363189338764144@newsletter';
 const NEWSLETTER_NAME = 'MHD dev';
@@ -82,7 +82,7 @@ function buildHeader(message) {
         `│⚙️┊ ${b('الاصدار')} 【 ${c('v' + (settings.version || '3.0.0'))} 】`,
         `│👑┊ ${b('اجمالي الاوامر')} 【 ${c(total)} 】`,
         BAR,
-        `╭╼ ${i('BY ' + name)} ╾╮`,
+        footer(),
     ].join('\n');
 }
 
@@ -90,7 +90,7 @@ function buildSections() {
     const out = [];
     const name = (settings.botName || 'mhdBot').toUpperCase();
     out.push(`📜┊ ${b('قائمة البوت')} ┊📜`);
-    out.push(`📂┊ ${b(name + ' MENU')} ┊📂`);
+    out.push(`📂┊ ${b(fancy(name + ' MENU'))} ┊📂`);
     SECTIONS.forEach(([icon, title, cmds], idx) => {
         out.push('');
         out.push(`📑┊ ${b('قسم ' + (idx + 1))} :`);
@@ -142,16 +142,15 @@ async function sendTextMenu(sock, chatId, message) {
             await sock.sendMessage(chatId, {
                 image: fs.readFileSync(imagePath),
                 caption: header,
-                contextInfo,
-                __raw: true
+                contextInfo
             }, { quoted: message });
         } else {
-            await sock.sendMessage(chatId, { text: header, contextInfo, __raw: true }, { quoted: message });
+            await sock.sendMessage(chatId, { text: header, contextInfo }, { quoted: message });
         }
-        await sock.sendMessage(chatId, { text: body, __raw: true });
+        await sock.sendMessage(chatId, { text: body, __noframe: true });
     } catch (error) {
         console.error('Error in help command:', error);
-        await sock.sendMessage(chatId, { text: header + '\n\n' + body, __raw: true });
+        await sock.sendMessage(chatId, { text: header + '\n\n' + body, __noframe: true });
     }
 }
 
@@ -161,8 +160,8 @@ async function helpCommand(sock, chatId, message) {
     const ownerNumber = String(settings.ownerNumber || '').replace(/\D/g, '');
 
     const sections = [{
-        title: `📂┊ ${botName} MENU ┊📂`,
-        highlight_label: 'DEV MHD',
+        title: `📂┊ ${fancy(botName + ' MENU')} ┊📂`,
+        highlight_label: fancy('DEV MHD'),
         rows: SECTIONS.map(([icon, title], idx) => ({
             header: `📑┊قسم ${idx + 1} :`,
             title: `「${icon}┊${title}┊${icon}」`,
@@ -172,9 +171,9 @@ async function helpCommand(sock, chatId, message) {
     }];
 
     const ok = await buttons.sendInteractive(sock, chatId, {
-        title: botName,
-        text: buildHeader(message),
-        footer: `BY ${botName}`,
+        title: fancy(botName),
+        text: fancy(buildHeader(message)),
+        footer: fancy(`BY ${botName}`),
         buttons: [
             buttons.listButton('📜┊قائمة البوت┊📜', 'اقسام البوت', sections),
             buttons.urlButton('📢┊قناة البوت┊📢', CHANNEL_URL),
@@ -205,10 +204,10 @@ async function helpSectionCommand(sock, chatId, message, num) {
         ...cmds.map((cmd) => `│⌯ ${c(cmd)}`),
         '╰───────────╯',
         '',
-        `╭╼ ${i('BY ' + botName)} ╾╮`,
+        footer(),
         `↩️ للرجوع للقايمة اكتب ${c('.المنيو')}`
     ].join('\n');
-    await sock.sendMessage(chatId, { text: out, __raw: true }, { quoted: message });
+    await sock.sendMessage(chatId, { text: out }, { quoted: message });
 }
 
 module.exports = helpCommand;

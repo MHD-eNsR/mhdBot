@@ -1,5 +1,6 @@
 const os = require('os');
 const settings = require('../settings.js');
+const { b, i, c, BAR, footer } = require('../lib/style');
 
 function formatTime(seconds) {
     const days = Math.floor(seconds / (24 * 60 * 60));
@@ -21,19 +22,22 @@ function formatTime(seconds) {
 async function pingCommand(sock, chatId, message) {
     try {
         const start = Date.now();
-        const sent = await sock.sendMessage(chatId, { text: '🏓 *بونج*', __raw: true }, { quoted: message });
+        await sock.sendMessage(chatId, { text: '🏓', __raw: true }, { quoted: message });
         const end = Date.now();
         const ping = Math.round((end - start) / 2);
         const uptimeFormatted = formatTime(process.uptime());
 
         const botInfo = [
-            `🏓 *بنج:* \`${ping}ms\``,
-            `⏱️ *مدة التشغيل:* _${uptimeFormatted}_`,
-            `⚙️ *الاصدار:* \`v${settings.version}\``,
-            `👑 *المطور:* ${settings.botOwner || 'MHD'}`
+            BAR,
+            `│🏓┊ ${b('بنج:')} ${c(ping + 'ms')}`,
+            `│⏱️┊ ${b('مدة التشغيل:')} ${i(uptimeFormatted)}`,
+            `│⚙️┊ ${b('الاصدار:')} ${c('v' + settings.version)}`,
+            `│👑┊ ${b('المطور:')} ${settings.botOwner || 'MHD'}`,
+            BAR,
+            footer()
         ].join('\n');
 
-        await sock.sendMessage(chatId, { text: botInfo, __raw: true }, { quoted: message });
+        await sock.sendMessage(chatId, { text: botInfo }, { quoted: message });
     } catch (error) {
         console.error('Error in ping command:', error);
         await sock.sendMessage(chatId, { text: 'معرفتش اجيب حالة البوت' });
