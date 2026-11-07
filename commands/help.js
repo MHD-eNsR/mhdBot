@@ -77,10 +77,10 @@ function buildHeader(message) {
     const name = (settings.botName || 'mhdBot').toUpperCase();
     return [
         BAR,
-        `│⏱️┊${b('المـدة')} 【${c(formatUptime(process.uptime()))}】`,
-        `│🚀┊${b('السرعة')} 【${c(speed + 'ms')}】`,
-        `│⚙️┊${b('الاصدار')} 【${c('v' + (settings.version || '3.0.0'))}】`,
-        `│👑┊${b('اجمالي الاوامر')} 【${c(total)}】`,
+        `│⏱️┊ ${b('المـدة')} 【 ${c(formatUptime(process.uptime()))} 】`,
+        `│🚀┊ ${b('السرعة')} 【 ${c(speed + 'ms')} 】`,
+        `│⚙️┊ ${b('الاصدار')} 【 ${c('v' + (settings.version || '3.0.0'))} 】`,
+        `│👑┊ ${b('اجمالي الاوامر')} 【 ${c(total)} 】`,
         BAR,
         `╭╼ ${i('BY ' + name)} ╾╮`,
     ].join('\n');
@@ -89,18 +89,18 @@ function buildHeader(message) {
 function buildSections() {
     const out = [];
     const name = (settings.botName || 'mhdBot').toUpperCase();
-    out.push(`📜┊${b('قائمة البوت')}┊📜`);
+    out.push(`📜┊ ${b('قائمة البوت')} ┊📜`);
     out.push(`📂┊ ${b(name + ' MENU')} ┊📂`);
     SECTIONS.forEach(([icon, title, cmds], idx) => {
         out.push('');
-        out.push(`📑┊${b('قسم ' + (idx + 1))} :`);
-        out.push(`「${icon}┊${b(title)}┊${icon}」`);
+        out.push(`📑┊ ${b('قسم ' + (idx + 1))} :`);
+        out.push(`「${icon}┊ ${b(title)} ┊${icon}」`);
         out.push('╭───────────────╮');
         for (const cmd of cmds) out.push(`│⌯ ${c(cmd)}`);
         out.push('╰───────────────╯');
     });
     out.push('');
-    out.push(`👑┊${b('المطور ' + (settings.botOwner || 'MHD'))}┊👑`);
+    out.push(`👑┊ ${b('المطور ' + (settings.botOwner || 'MHD'))} ┊👑`);
     out.push('https://github.com/MHD-eNsR/mhdBot');
     return out.join('\n');
 }
@@ -197,8 +197,8 @@ async function helpSectionCommand(sock, chatId, message, num) {
     const botName = (settings.botName || 'mhdBot').toUpperCase();
     const out = [
         BAR,
-        `📑┊${b('قسم ' + (idx + 1))} :`,
-        `「${icon}┊${b(title)}┊${icon}」`,
+        `📑┊ ${b('قسم ' + (idx + 1))} :`,
+        `「${icon}┊ ${b(title)} ┊${icon}」`,
         `> ${SECTION_DESCS[idx] || ''}`,
         BAR,
         '╭╼ 📜 الاوامر ╾╮',
