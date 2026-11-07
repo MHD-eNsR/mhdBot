@@ -14,7 +14,7 @@ function extractUrl(text) {
 
 function formatInfo(video) {
   const views = Number(video.views || 0).toLocaleString('en-US');
-  return `🎬 *${video.title}*\n⏱ Duration: ${video.timestamp || '—'}\n👀 Views: ${views}`;
+  return `${video.title}\nالمدة ${video.timestamp || '—'}\nالمشاهدات ${views}`;
 }
 
 async function resolveVideo(videoUrl) {
@@ -52,7 +52,7 @@ async function videoCommand(sock, chatId, message) {
     if (!query) {
       return sock.sendMessage(
         chatId,
-        { text: 'Usage: `.video <name or YouTube URL>`' },
+        { text: 'طريقة الاستخدام .فيديو اسم الفيديو او لينك يوتيوب' },
         { quoted: message }
       );
     }
@@ -64,14 +64,14 @@ async function videoCommand(sock, chatId, message) {
       videoUrl = extractUrl(query);
       const ytId = (videoUrl.match(/(?:youtu\.be\/|v=|shorts\/)([a-zA-Z0-9_-]{11})/) || [])[1];
       preview = {
-        title: 'YouTube Video',
+        title: 'فيديو يوتيوب',
         thumbnail: ytId ? `https://i.ytimg.com/vi/${ytId}/sddefault.jpg` : null,
       };
     } else {
       const search = await yts(query);
       preview = search?.videos?.[0];
       if (!preview) {
-        return sock.sendMessage(chatId, { text: '❌ No results found.' }, { quoted: message });
+        return sock.sendMessage(chatId, { text: 'مفيش نتايج' }, { quoted: message });
       }
       videoUrl = preview.url;
     }
@@ -82,14 +82,14 @@ async function videoCommand(sock, chatId, message) {
           chatId,
           {
             image: { url: preview.thumbnail },
-            caption: `${formatInfo(preview)}\n\nDownloading...`,
+            caption: `${formatInfo(preview)}\n\nبحمل الفيديو`,
           },
           { quoted: message }
         );
       } catch {
         await sock.sendMessage(
           chatId,
-          { text: `${formatInfo(preview)}\n\nDownloading...` },
+          { text: `${formatInfo(preview)}\n\nبحمل الفيديو` },
           { quoted: message }
         );
       }
@@ -97,7 +97,7 @@ async function videoCommand(sock, chatId, message) {
 
     const dl = await resolveVideo(videoUrl);
     const video = await fetchWhatsAppVideo(dl.download);
-    const botName = settings.botName || 'Knight Bot';
+    const botName = settings.botName || 'mhdBot';
     const title = dl.title || preview.title || 'Video';
     const fileName = `${title.replace(/[^\w\s-]/g, '').trim() || 'video'}.mp4`;
 
@@ -107,7 +107,7 @@ async function videoCommand(sock, chatId, message) {
         video,
         mimetype: 'video/mp4',
         fileName,
-        caption: `*${title}*\n\n> *_Downloaded by ${botName}_*`,
+        caption: `${title}\n\nتم التحميل بواسطة ${botName}`,
       },
       { quoted: message }
     );
@@ -115,7 +115,7 @@ async function videoCommand(sock, chatId, message) {
     console.error('[video]', err?.message || err);
     await sock.sendMessage(
       chatId,
-      { text: `❌ Download failed: ${err?.message || 'Unknown error'}` },
+      { text: `فشل التحميل ${err?.message || 'خطأ مش معروف'}` },
       { quoted: message }
     );
   }

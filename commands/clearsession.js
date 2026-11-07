@@ -8,8 +8,8 @@ const channelInfo = {
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363161513685998@newsletter',
-            newsletterName: 'KnightBot MD',
+            newsletterJid: '120363189338764144@newsletter',
+            newsletterName: 'MHD dev',
             serverMessageId: -1
         }
     }
@@ -22,7 +22,7 @@ async function clearSessionCommand(sock, chatId, msg) {
         
         if (!msg.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, { 
-                text: '❌ This command can only be used by the owner!',
+                text: 'الامر ده لصاحب البوت بس',
                 ...channelInfo
             });
             return;
@@ -33,7 +33,7 @@ async function clearSessionCommand(sock, chatId, msg) {
 
         if (!fs.existsSync(sessionDir)) {
             await sock.sendMessage(chatId, { 
-                text: '❌ Session directory not found!',
+                text: 'مفيش فولدر للسيشن',
                 ...channelInfo
             });
             return;
@@ -45,7 +45,7 @@ async function clearSessionCommand(sock, chatId, msg) {
 
         // Send initial status
         await sock.sendMessage(chatId, { 
-            text: `🔍 Optimizing session files for better performance...`,
+            text: `بظبط ملفات السيشن عشان الاداء يبقى احسن`,
             ...channelInfo
         });
 
@@ -72,17 +72,17 @@ async function clearSessionCommand(sock, chatId, msg) {
                 filesCleared++;
             } catch (error) {
                 errors++;
-                errorDetails.push(`Failed to delete ${file}: ${error.message}`);
+                errorDetails.push(`معرفتش امسح ${file} ${error.message}`);
             }
         }
 
         // Send completion message
-        const message = `✅ Session files cleared successfully!\n\n` +
-                       `📊 Statistics:\n` +
-                       `• Total files cleared: ${filesCleared}\n` +
-                       `• App state sync files: ${appStateSyncCount}\n` +
-                       `• Pre-key files: ${preKeyCount}\n` +
-                       (errors > 0 ? `\n⚠️ Errors encountered: ${errors}\n${errorDetails.join('\n')}` : '');
+        const message = `ملفات السيشن اتمسحت بنجاح\n\n` +
+                       `الاحصائيات\n` +
+                       `عدد الملفات اللي اتمسحت ${filesCleared}\n` +
+                       `ملفات مزامنة الحالة ${appStateSyncCount}\n` +
+                       `ملفات المفاتيح الاولية ${preKeyCount}\n` +
+                       (errors > 0 ? `\nحصلت اخطاء ${errors}\n${errorDetails.join('\n')}` : '');
 
         await sock.sendMessage(chatId, { 
             text: message,
@@ -92,7 +92,7 @@ async function clearSessionCommand(sock, chatId, msg) {
     } catch (error) {
         console.error('Error in clearsession command:', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Failed to clear session files!',
+            text: 'معرفتش امسح ملفات السيشن',
             ...channelInfo
         });
     }

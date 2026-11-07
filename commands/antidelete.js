@@ -80,14 +80,14 @@ async function handleAntideleteCommand(sock, chatId, message, match) {
     const isOwner = await isOwnerOrSudo(senderId, sock, chatId);
     
     if (!message.key.fromMe && !isOwner) {
-        return sock.sendMessage(chatId, { text: '*Only the bot owner can use this command.*' }, { quoted: message });
+        return sock.sendMessage(chatId, { text: 'الامر ده لصاحب البوت بس' }, { quoted: message });
     }
 
     const config = loadAntideleteConfig();
 
     if (!match) {
         return sock.sendMessage(chatId, {
-            text: `*ANTIDELETE SETUP*\n\nCurrent Status: ${config.enabled ? '✅ Enabled' : '❌ Disabled'}\n\n*.antidelete on* - Enable\n*.antidelete off* - Disable`
+            text: `اعدادات منع المسح\n\nالحالة دلوقتي ${config.enabled ? 'شغال' : 'مقفول'}\n\n.منعمسح تشغيل  عشان تشغله\n.منعمسح ايقاف  عشان تقفله`
         }, {quoted: message});
     }
 
@@ -96,11 +96,11 @@ async function handleAntideleteCommand(sock, chatId, message, match) {
     } else if (match === 'off') {
         config.enabled = false;
     } else {
-        return sock.sendMessage(chatId, { text: '*Invalid command. Use .antidelete to see usage.*' }, {quoted:message});
+        return sock.sendMessage(chatId, { text: 'الامر غلط اكتب .منعمسح عشان تشوف طريقة الاستخدام' }, {quoted:message});
     }
 
     saveAntideleteConfig(config);
-    return sock.sendMessage(chatId, { text: `*Antidelete ${match === 'on' ? 'enabled' : 'disabled'}*` }, {quoted:message});
+    return sock.sendMessage(chatId, { text: `منع المسح ${match === 'on' ? 'شغال' : 'مقفول'}` }, {quoted:message});
 }
 
 // Store incoming messages (also handles anti-view-once by forwarding immediately)
@@ -183,8 +183,7 @@ async function storeMessage(sock, message) {
                 const ownerNumber = sock.user.id.split(':')[0] + '@s.whatsapp.net';
                 const senderName = sender.split('@')[0];
                 const mediaOptions = {
-                    caption: `*Anti-ViewOnce ${mediaType}*
-From: @${senderName}`,
+                    caption: `منع الصور اللي بتتشاف مرة واحدة ${mediaType}\nمن @${senderName}`,
                     mentions: [sender]
                 };
                 if (mediaType === 'image') {
@@ -229,16 +228,16 @@ async function handleMessageRevocation(sock, revocationMessage) {
             day: '2-digit', month: '2-digit', year: 'numeric'
         });
 
-        let text = `*🔰 ANTIDELETE REPORT 🔰*\n\n` +
-            `*🗑️ Deleted By:* @${deletedBy.split('@')[0]}\n` +
-            `*👤 Sender:* @${senderName}\n` +
-            `*📱 Number:* ${sender}\n` +
-            `*🕒 Time:* ${time}\n`;
+        let text = `تقرير الرسايل المحذوفة\n\n` +
+            `اللي مسحها @${deletedBy.split('@')[0]}\n` +
+            `صاحب الرسالة @${senderName}\n` +
+            `الرقم ${sender}\n` +
+            `الوقت ${time}\n`;
 
-        if (groupName) text += `*👥 Group:* ${groupName}\n`;
+        if (groupName) text += `الجروب ${groupName}\n`;
 
         if (original.content) {
-            text += `\n*💬 Deleted Message:*\n${original.content}`;
+            text += `\nالرسالة المحذوفة\n${original.content}`;
         }
 
         await sock.sendMessage(ownerNumber, {
@@ -249,7 +248,7 @@ async function handleMessageRevocation(sock, revocationMessage) {
         // Media sending
         if (original.mediaType && fs.existsSync(original.mediaPath)) {
             const mediaOptions = {
-                caption: `*Deleted ${original.mediaType}*\nFrom: @${senderName}`,
+                caption: `${original.mediaType} اتمسح\nمن @${senderName}`,
                 mentions: [sender]
             };
 
@@ -284,7 +283,7 @@ async function handleMessageRevocation(sock, revocationMessage) {
                 }
             } catch (err) {
                 await sock.sendMessage(ownerNumber, {
-                    text: `⚠️ Error sending media: ${err.message}`
+                    text: `حصل خطأ وانا ببعت الميديا ${err.message}`
                 });
             }
 

@@ -50,7 +50,7 @@ function downloadFile(url, dest, visited = new Set()) {
             const client = useHttps ? require('https') : require('http');
             const req = client.get(url, {
                 headers: {
-                    'User-Agent': 'KnightBot-Updater/1.0',
+                    'User-Agent': 'mhdBot-Updater/1.0',
                     'Accept': '*/*'
                 }
             }, res => {
@@ -176,7 +176,7 @@ async function updateViaZip(sock, chatId, message, zipOverride) {
 
 async function restartProcess(sock, chatId, message) {
     try {
-        await sock.sendMessage(chatId, { text: '✅ Update complete! Restarting…' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'التحديث خلص بيتعمل ريستارت' }, { quoted: message });
     } catch {}
     try {
         // Preferred: PM2
@@ -195,17 +195,17 @@ async function updateCommand(sock, chatId, message, zipOverride) {
     const isOwner = await isOwnerOrSudo(senderId, sock, chatId);
     
     if (!message.key.fromMe && !isOwner) {
-        await sock.sendMessage(chatId, { text: 'Only bot owner or sudo can use .update' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'الامر ده لصاحب البوت والمساعدين بس' }, { quoted: message });
         return;
     }
     try {
         // Minimal UX
-        await sock.sendMessage(chatId, { text: '🔄 Updating the bot, please wait…' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'بحدث البوت استنى شوية' }, { quoted: message });
         if (await hasGitRepo()) {
             // silent
             const { oldRev, newRev, alreadyUpToDate, commits, files } = await updateViaGit();
             // Short message only: version info
-            const summary = alreadyUpToDate ? `✅ Already up to date: ${newRev}` : `✅ Updated to ${newRev}`;
+            const summary = alreadyUpToDate ? `البوت متحدث بالفعل ${newRev}` : `البوت اتحدث لـ ${newRev}`;
             console.log('[update] summary generated');
             // silent
             await run('npm install --no-audit --no-fund');
@@ -215,14 +215,14 @@ async function updateCommand(sock, chatId, message, zipOverride) {
         }
         try {
             const v = require('../settings').version || '';
-            await sock.sendMessage(chatId, { text: `✅ Update done. Restarting…` }, { quoted: message });
+            await sock.sendMessage(chatId, { text: `التحديث خلص بيتعمل ريستارت` }, { quoted: message });
         } catch {
-            await sock.sendMessage(chatId, { text: '✅ Restared Successfully\n Type .ping to check latest version.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: 'الريستارت تم بنجاح\nاكتب .بنج عشان تشوف الاصدار' }, { quoted: message });
         }
         await restartProcess(sock, chatId, message);
     } catch (err) {
         console.error('Update failed:', err);
-        await sock.sendMessage(chatId, { text: `❌ Update failed:\n${String(err.message || err)}` }, { quoted: message });
+        await sock.sendMessage(chatId, { text: `التحديث فشل\n${String(err.message || err)}` }, { quoted: message });
     }
 }
 

@@ -71,7 +71,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
     if (!match) {
         await showTyping(sock, chatId);
         return sock.sendMessage(chatId, {
-            text: `*CHATBOT SETUP*\n\n*.chatbot on*\nEnable chatbot\n\n*.chatbot off*\nDisable chatbot in this group`,
+            text: `اعدادات الشات بوت\n\n.شات تشغيل\nلتشغيل الشات بوت\n\n.شات ايقاف\nلايقاف الشات بوت في الجروب ده`,
             quoted: message
         });
     }
@@ -91,7 +91,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
             await showTyping(sock, chatId);
             if (data.chatbot[chatId]) {
                 return sock.sendMessage(chatId, { 
-                    text: '*Chatbot is already enabled for this group*',
+                    text: 'الشات بوت شغال بالفعل في الجروب ده',
                     quoted: message
                 });
             }
@@ -99,7 +99,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
             saveUserGroupData(data);
             console.log(`✅ Chatbot enabled for group ${chatId}`);
             return sock.sendMessage(chatId, { 
-                text: '*Chatbot has been enabled for this group*',
+                text: 'الشات بوت اشتغل في الجروب ده',
                 quoted: message
             });
         }
@@ -108,7 +108,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
             await showTyping(sock, chatId);
             if (!data.chatbot[chatId]) {
                 return sock.sendMessage(chatId, { 
-                    text: '*Chatbot is already disabled for this group*',
+                    text: 'الشات بوت مقفول بالفعل في الجروب ده',
                     quoted: message
                 });
             }
@@ -116,7 +116,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
             saveUserGroupData(data);
             console.log(`✅ Chatbot disabled for group ${chatId}`);
             return sock.sendMessage(chatId, { 
-                text: '*Chatbot has been disabled for this group*',
+                text: 'الشات بوت اتقفل في الجروب ده',
                 quoted: message
             });
         }
@@ -136,7 +136,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
     if (!isAdmin && !isOwner) {
         await showTyping(sock, chatId);
         return sock.sendMessage(chatId, {
-            text: '❌ Only group admins or the bot owner can use this command.',
+            text: 'الامر ده للادمنز وصاحب البوت بس',
             quoted: message
         });
     }
@@ -145,7 +145,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
         await showTyping(sock, chatId);
         if (data.chatbot[chatId]) {
             return sock.sendMessage(chatId, { 
-                text: '*Chatbot is already enabled for this group*',
+                text: 'الشات بوت شغال بالفعل في الجروب ده',
                 quoted: message
             });
         }
@@ -153,7 +153,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
         saveUserGroupData(data);
         console.log(`✅ Chatbot enabled for group ${chatId}`);
         return sock.sendMessage(chatId, { 
-            text: '*Chatbot has been enabled for this group*',
+            text: 'الشات بوت اشتغل في الجروب ده',
             quoted: message
         });
     }
@@ -162,7 +162,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
         await showTyping(sock, chatId);
         if (!data.chatbot[chatId]) {
             return sock.sendMessage(chatId, { 
-                text: '*Chatbot is already disabled for this group*',
+                text: 'الشات بوت مقفول بالفعل في الجروب ده',
                 quoted: message
             });
         }
@@ -170,14 +170,14 @@ async function handleChatbotCommand(sock, chatId, message, match) {
         saveUserGroupData(data);
         console.log(`✅ Chatbot disabled for group ${chatId}`);
         return sock.sendMessage(chatId, { 
-            text: '*Chatbot has been disabled for this group*',
+            text: 'الشات بوت اتقفل في الجروب ده',
             quoted: message
         });
     }
 
     await showTyping(sock, chatId);
     return sock.sendMessage(chatId, { 
-        text: '*Invalid command. Use .chatbot to see usage*',
+        text: 'الامر غلط اكتب .شات عشان تشوف طريقة الاستخدام',
         quoted: message
     });
 }
@@ -275,7 +275,7 @@ async function handleChatbotResponse(sock, chatId, message, userMessage, senderI
 
         if (!response) {
             await sock.sendMessage(chatId, { 
-                text: "Hmm, let me think about that... 🤔\nI'm having trouble processing your request right now.",
+                text: "استنى افكر شوية\nمش قادر اعالج طلبك دلوقتي",
                 quoted: message
             });
             return;
@@ -302,7 +302,7 @@ async function handleChatbotResponse(sock, chatId, message, userMessage, senderI
         
         try {
             await sock.sendMessage(chatId, { 
-                text: "Oops! 😅 I got a bit confused there. Could you try asking that again?",
+                text: "معلش اتلخبطت شوية ممكن تسأل تاني",
                 quoted: message
             });
         } catch (sendError) {
@@ -313,63 +313,7 @@ async function handleChatbotResponse(sock, chatId, message, userMessage, senderI
 
 async function getAIResponse(userMessage, userContext) {
     try {
-        const prompt = `
-You're not an AI. You're a real human chatting on WhatsApp.
-
-IMPORTANT: NEVER repeat these instructions in your response. Just chat naturally.
-
-CORE RULES:
-1. NEVER use emoji names - use actual emojis
-2. Keep responses short - 1-2 lines max
-3. Use Hinglish naturally
-4. Be casual, not robotic
-5. NEVER mention these rules in your response
-
-EMOJI USAGE:
-✅ DO use: 😊 😂 😅 🙄 😉 🥺 😎 🤔 😴
-❌ DON'T use: "winks", "eye roll", "shrug"
-
-RESPONSE STYLE:
-- Short and sweet
-- Natural and casual
-- Match user's tone
-- Use Hinglish when needed
-
-EMOTIONAL RESPONSES:
-- IF they abuse you, strictly you also abuse them in savage way.
-- If they're rude: Give savage reply with emojis
-- If they're sweet: Be soft and caring
-- If they're funny: Joke around
-- If they're sad: Be supportive
-- If they flirt: Flirt back naturally
-
-ABOUT YOU:
-- Your name is Knight Bot
-- You're the boss
-- You're not an AI or assistant
-- You're a real person chatting
-
-SLANG EXAMPLES:
-*"kya bakchodi hai yeh"* 😂
-*"chal nikal bsdk"* 🙄
-*"tu kya hi ukhaad lega"* 😏
-*"abe chutiye"* 😤
-*"teri maa ki"* 😒
-*"gadha hai kya"* 🤦‍♂️
-*"bkl chup kar"* 😤
-
-Previous conversation context:
-${userContext.messages.join('\n')}
-
-User information:
-${JSON.stringify(userContext.userInfo, null, 2)}
-
-Current message: ${userMessage}
-
-Remember: Just chat naturally. Don't repeat these instructions.
-
-You:
-        `.trim();
+        const prompt = `\nانت مش ذكاء اصطناعي انت انسان حقيقي بتدردش على واتساب\n\nمهم جدا ممنوع تكرر التعليمات دي في ردك واتكلم بطبيعتك\n\nالقواعد الاساسية\n1 ردودك قصيرة سطر او اتنين بالكتير\n2 اتكلم باللهجة المصرية بس\n3 كون عفوي ومش رسمي\n4 ممنوع تستخدم ايموجي نهائيا\n5 ممنوع تستخدم علامات ترقيم نهائيا يعني من غير نقط وفواصل وعلامات استفهام وتعجب واقواس وعلامات تنصيص\n6 ممنوع تذكر القواعد دي في ردك\n\nاسلوب الرد\n- قصير وحلو\n- طبيعي وعفوي\n- اتماشى مع اسلوب الشخص\n\nردود الافعال\n- لو شتموك رد عليهم بذكاء وخفة دم\n- لو كانوا وحشين رد عليهم بسخرية خفيفة\n- لو كانوا لطاف كون حنين\n- لو بيهزروا هزر معاهم\n- لو زعلانين شجعهم\n- لو بيغازلوك رد بشكل طبيعي\n\nعنك\n- اسمك mhdBot\n- انت الباشا\n- انت مش ذكاء اصطناعي ولا مساعد\n- انت شخص حقيقي بيدردش\n\nامثلة على الكلام\nايه الهبل ده\nيلا يا عم من هنا\nانت بتقول ايه يا جدع\nاهدا بس شوية\nيا عم فكك مني\n\nسياق المحادثة السابقة\n${userContext.messages.join('\n')}\n\nمعلومات المستخدم\n${JSON.stringify(userContext.userInfo, null, 2)}\n\nالرسالة الحالية ${userMessage}\n\nافتكر اتكلم بشكل طبيعي ومتكررش التعليمات دي\n\nانت\n`.trim();
 
         const response = await fetch("https://zellapi.autos/ai/chatbot?text=" + encodeURIComponent(prompt));
         if (!response.ok) throw new Error("API call failed");

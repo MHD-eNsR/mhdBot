@@ -20,22 +20,7 @@ async function groupInfoCommand(sock, chatId, msg) {
         const owner = groupMetadata.owner || groupAdmins.find(p => p.admin === 'superadmin')?.id || chatId.split('-')[0] + '@s.whatsapp.net';
 
         // Create info text
-        const text = `
-┌──「 *INFO GROUP* 」
-▢ *♻️ID:*
-   • ${groupMetadata.id}
-▢ *🔖NAME* : 
-• ${groupMetadata.subject}
-▢ *👥Members* :
-• ${participants.length}
-▢ *🤿Group Owner:*
-• @${owner.split('@')[0]}
-▢ *🕵🏻‍♂️Admins:*
-${listAdmin}
-
-▢ *📌Description* :
-   • ${groupMetadata.desc?.toString() || 'No description'}
-`.trim();
+        const text = `\nمعلومات الجروب\n\nالايدي\n   ${groupMetadata.id}\nالاسم\n${groupMetadata.subject}\nعدد الاعضاء\n${participants.length}\nصاحب الجروب\n@${owner.split('@')[0]}\nالادمنز\n${listAdmin}\n\nالوصف\n   ${groupMetadata.desc?.toString() || 'مفيش وصف'}\n`.trim();
 
         // Send the message with image and mentions
         await sock.sendMessage(chatId, {
@@ -46,7 +31,7 @@ ${listAdmin}
 
     } catch (error) {
         console.error('Error in groupinfo command:', error);
-        await sock.sendMessage(chatId, { text: 'Failed to get group info!' });
+        await sock.sendMessage(chatId, { text: 'معرفتش اجيب معلومات الجروب' });
     }
 }
 

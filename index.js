@@ -71,12 +71,12 @@ setInterval(() => {
     }
 }, 30_000) // check every 30 seconds
 
-let phoneNumber = "911234567890"
+let phoneNumber = settings.ownerNumber || ""
 let owner = JSON.parse(fs.readFileSync('./data/owner.json'))
 
-global.botname = "KNIGHT BOT"
+global.botname = "MHD BOT"
 global.themeemoji = "•"
-const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
+const pairingCode = true
 const useMobile = process.argv.includes("--mobile")
 
 // Only create readline interface if we're in an interactive environment
@@ -164,13 +164,13 @@ async function startXeonBotInc() {
                 // Only try to send error message if we have a valid chatId
                 if (mek.key && mek.key.remoteJid) {
                     await XeonBotInc.sendMessage(mek.key.remoteJid, {
-                        text: '❌ An error occurred while processing your message.',
+                        text: 'حصل خطأ وانا بعالج رسالتك',
                         contextInfo: {
                             forwardingScore: 1,
                             isForwarded: true,
                             forwardedNewsletterMessageInfo: {
-                                newsletterJid: '120363161513685998@newsletter',
-                                newsletterName: 'KnightBot MD',
+                                newsletterJid: '120363189338764144@newsletter',
+                                newsletterName: 'MHD dev',
                                 serverMessageId: -1
                             }
                         }
@@ -218,6 +218,9 @@ async function startXeonBotInc() {
 
     XeonBotInc.public = true
 
+    // فلتر الايموجي وعلامات الترقيم على كل الرسايل الطالعة
+    require('./lib/cleanText').wrapSocket(XeonBotInc)
+
     XeonBotInc.serializeM = (m) => smsg(XeonBotInc, m, store)
 
     // Handle pairing code
@@ -228,7 +231,7 @@ async function startXeonBotInc() {
         if (!!global.phoneNumber) {
             phoneNumber = global.phoneNumber
         } else {
-            phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Please type your WhatsApp number 😍\nFormat: 6281376552730 (without + or spaces) : `)))
+            phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`اكتب رقم الواتساب بتاعك\nالصيغة 201001234567 من غير زائد او مسافات `)))
         }
 
         // Clean the phone number - remove any non-digit characters
@@ -273,13 +276,13 @@ async function startXeonBotInc() {
             try {
                 const botNumber = XeonBotInc.user.id.split(':')[0] + '@s.whatsapp.net';
                 await XeonBotInc.sendMessage(botNumber, {
-                    text: `🤖 Bot Connected Successfully!\n\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Online and Ready!\n\n✅Make sure to join below channel`,
+                    text: `البوت اتوصل بنجاح\n\nالوقت ${new Date().toLocaleString()}\nالحالة اونلاين وجاهز\n\nمتنساش تدخل القناة اللي تحت`,
                     contextInfo: {
                         forwardingScore: 1,
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
-                            newsletterJid: '120363161513685998@newsletter',
-                            newsletterName: 'KnightBot MD',
+                            newsletterJid: '120363189338764144@newsletter',
+                            newsletterName: 'MHD dev',
                             serverMessageId: -1
                         }
                     }
@@ -289,7 +292,7 @@ async function startXeonBotInc() {
             }
 
             await delay(1999)
-            console.log(chalk.yellow(`\n\n                  ${chalk.bold.blue(`[ ${global.botname || 'KNIGHT BOT'} ]`)}\n\n`))
+            console.log(chalk.yellow(`\n\n                  ${chalk.bold.blue(`[ ${global.botname || 'mhdBot'} ]`)}\n\n`))
             console.log(chalk.cyan(`< ================================================== >`))
             console.log(chalk.magenta(`\n${global.themeemoji || '•'} YT CHANNEL: MR UNIQUE HACKER`))
             console.log(chalk.magenta(`${global.themeemoji || '•'} GITHUB: mrunqiuehacker`))
@@ -363,7 +366,7 @@ async function startXeonBotInc() {
                     if (!antiCallNotified.has(callerJid)) {
                         antiCallNotified.add(callerJid);
                         setTimeout(() => antiCallNotified.delete(callerJid), 60000);
-                        await XeonBotInc.sendMessage(callerJid, { text: '📵 Anticall is enabled. Your call was rejected and you will be blocked.' });
+                        await XeonBotInc.sendMessage(callerJid, { text: 'منع المكالمات شغال مكالمتك اترفضت وهتتحظر' });
                     }
                 } catch {}
                 // Then: block after a short delay to ensure rejection and message are processed

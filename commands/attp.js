@@ -8,19 +8,19 @@ async function attpCommand(sock, chatId, message) {
     const text = userMessage.split(' ').slice(1).join(' ');
 
     if (!text) {
-        await sock.sendMessage(chatId, { text: 'Please provide text after the .attp command.' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'اكتب النص بعد امر .متحرك' }, { quoted: message });
         return;
     }
 
     try {
         const mp4Buffer = await renderBlinkingVideoWithFfmpeg(text);
-        const webpPath = await writeExifVid(mp4Buffer, { packname: 'Knight Bot' });
+        const webpPath = await writeExifVid(mp4Buffer, { packname: 'mhdBot' });
         const webpBuffer = fs.readFileSync(webpPath);
         try { fs.unlinkSync(webpPath) } catch (_) {}
         await sock.sendMessage(chatId, { sticker: webpBuffer }, { quoted: message });
     } catch (error) {
         console.error('Error generating local sticker:', error);
-        await sock.sendMessage(chatId, { text: 'Failed to generate the sticker locally.' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'معرفتش اعمل الملصق' }, { quoted: message });
     }
 }
 

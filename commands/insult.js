@@ -1,33 +1,33 @@
 const insults = [
-    "You're like a cloud. When you disappear, it's a beautiful day!",
-    "You bring everyone so much joy when you leave the room!",
-    "I'd agree with you, but then we'd both be wrong.",
-    "You're not stupid; you just have bad luck thinking.",
-    "Your secrets are always safe with me. I never even listen to them.",
-    "You're proof that even evolution takes a break sometimes.",
-    "You have something on your chin... no, the third one down.",
-    "You're like a software update. Whenever I see you, I think, 'Do I really need this right now?'",
-    "You bring everyone happiness... you know, when you leave.",
-    "You're like a penny—two-faced and not worth much.",
-    "You have something on your mind... oh wait, never mind.",
-    "You're the reason they put directions on shampoo bottles.",
-    "You're like a cloud. Always floating around with no real purpose.",
-    "Your jokes are like expired milk—sour and hard to digest.",
-    "You're like a candle in the wind... useless when things get tough.",
-    "You have something unique—your ability to annoy everyone equally.",
-    "You're like a Wi-Fi signal—always weak when needed most.",
-    "You're proof that not everyone needs a filter to be unappealing.",
-    "Your energy is like a black hole—it just sucks the life out of the room.",
-    "You have the perfect face for radio.",
-    "You're like a traffic jam—nobody wants you, but here you are.",
-    "You're like a broken pencil—pointless.",
-    "Your ideas are so original, I'm sure I've heard them all before.",
-    "You're living proof that even mistakes can be productive.",
-    "You're not lazy; you're just highly motivated to do nothing.",
-    "Your brain's running Windows 95—slow and outdated.",
-    "You're like a speed bump—nobody likes you, but everyone has to deal with you.",
-    "You're like a cloud of mosquitoes—just irritating.",
-    "You bring people together... to talk about how annoying you are."
+    "انت زي السحابة لما بتختفي بيبقى يوم جميل",
+    "بتفرح الكل اوي لما بتمشي من المكان",
+    "كنت هوافقك بس كده احنا الاتنين هنبقى غلطانين",
+    "انت مش غبي انت بس بخت التفكير وحش",
+    "اسرارك في امان معايا انا اصلا مبسمعهاش",
+    "انت دليل ان حتى التطور بياخد اجازة احيانا",
+    "فيه حاجة على دقنك لا لا التالتة اللي تحت",
+    "انت زي تحديث البرنامج كل ما اشوفك اقول هو انا محتاج ده دلوقتي",
+    "بتفرح الكل وانت ماشي",
+    "انت زي العملة الصغيرة وشين وقيمتك قليلة",
+    "انت في دماغك حاجة لا استنى ولا حاجة",
+    "انت السبب ان اتكتب تعليمات على علبة الشامبو",
+    "انت زي السحابة بتتحرك من غير هدف",
+    "نكتك زي اللبن الفاسد حامضة وتقيلة على المعدة",
+    "انت زي الشمعة في الريح ملكش لازمة وقت الشدة",
+    "عندك موهبة وهي انك بتضايق الكل بالتساوي",
+    "انت زي شبكة الواي فاي بتضعف وقت ما نحتاجها",
+    "انت دليل ان مش كل الناس محتاجة فلتر عشان تبان وحشة",
+    "طاقتك زي الثقب الاسود بتسحب الحياة من المكان",
+    "وشك مناسب للاذاعة",
+    "انت زي زحمة المرور محدش عايزك بس انت موجود",
+    "انت زي القلم المكسور ملوش لازمة",
+    "افكارك اصلية اوي لدرجة اني سمعتها كلها قبل كده",
+    "انت دليل حي ان حتى الاخطاء ممكن تبقى منتجة",
+    "انت مش كسول انت بس متحمس اوي انك متعملش حاجة",
+    "مخك شغال بويندوز 95 بطيء وقديم",
+    "انت زي المطب مفيش حد بيحبك بس لازم الكل يتعامل معاك",
+    "انت زي سرب البعوض مجرد ازعاج",
+    "بتجمع الناس عشان يتكلموا عن قد ايه انت رخم"
 ];
 
 async function insultCommand(sock, chatId, message) {
@@ -50,7 +50,7 @@ async function insultCommand(sock, chatId, message) {
         
         if (!userToInsult) {
             await sock.sendMessage(chatId, { 
-                text: 'Please mention someone or reply to their message to insult them!'
+                text: 'منشن حد او رد على رسالته عشان تهينو'
             });
             return;
         }
@@ -61,7 +61,7 @@ async function insultCommand(sock, chatId, message) {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         await sock.sendMessage(chatId, { 
-            text: `Hey @${userToInsult.split('@')[0]}, ${insult}`,
+            text: `يا @${userToInsult.split('@')[0]} ${insult}`,
             mentions: [userToInsult]
         });
     } catch (error) {
@@ -70,7 +70,7 @@ async function insultCommand(sock, chatId, message) {
             await new Promise(resolve => setTimeout(resolve, 2000));
             try {
                 await sock.sendMessage(chatId, { 
-                    text: 'Please try again in a few seconds.'
+                    text: 'جرب تاني بعد كام ثانية'
                 });
             } catch (retryError) {
                 console.error('Error sending retry message:', retryError);
@@ -78,7 +78,7 @@ async function insultCommand(sock, chatId, message) {
         } else {
             try {
                 await sock.sendMessage(chatId, { 
-                    text: 'An error occurred while sending the insult.'
+                    text: 'حصل خطأ وانا ببعت الاهانة'
                 });
             } catch (sendError) {
                 console.error('Error sending error message:', sendError);

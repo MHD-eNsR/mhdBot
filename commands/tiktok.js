@@ -29,8 +29,8 @@ function tikTokUrlVariants(url) {
 }
 
 function captionFor(title) {
-  const bot = (settings.botName || 'Knight Bot').toUpperCase();
-  return title ? `*DOWNLOADED BY ${bot}*\n\n📝 ${title}` : `*DOWNLOADED BY ${bot}*`;
+  const bot = (settings.botName || 'mhdBot').toUpperCase();
+  return title ? `تم التحميل بواسطة ${bot}\n\n${title}` : `تم التحميل بواسطة ${bot}`;
 }
 
 const TT_HEADERS = {
@@ -46,7 +46,7 @@ async function scraperTikTokDownload(url) {
     data?.video_hd || data?.video || data?.video_wm || data?.hdplay || data?.play || null;
   if (direct && /^https?:\/\//i.test(direct)) {
     return {
-      title: data.title || 'TikTok Video',
+      title: data.title || 'فيديو تيكتوك',
       thumbnail: data.cover || null,
       download: direct,
     };
@@ -56,7 +56,7 @@ async function scraperTikTokDownload(url) {
       data.data.find((m) => m.type === 'video' || /\.(mp4|mov|webm)$/i.test(m.url || '')) ||
       data.data[0];
     if (video?.url) {
-      return { title: data.title || 'TikTok Video', download: video.url };
+      return { title: data.title || 'فيديو تيكتوك', download: video.url };
     }
   }
   throw new Error('No video URL found');
@@ -114,14 +114,14 @@ async function tiktokCommand(sock, chatId, message) {
     if (!url) {
       return sock.sendMessage(
         chatId,
-        { text: 'Please provide a TikTok link.\nExample: `.tiktok https://vm.tiktok.com/...`' },
+        { text: 'ابعت لينك تيكتوك\nمثال .تيكتوك https://vm.tiktok.com/...' },
         { quoted: message }
       );
     }
     if (!TT_PATTERNS.some((p) => p.test(url))) {
       return sock.sendMessage(
         chatId,
-        { text: 'That is not a valid TikTok link.' },
+        { text: 'ده مش لينك تيكتوك صح' },
         { quoted: message }
       );
     }
@@ -149,7 +149,7 @@ async function tiktokCommand(sock, chatId, message) {
     console.error('[tiktok]', err?.message || err);
     await sock.sendMessage(
       chatId,
-      { text: '❌ Failed to download TikTok video. Try again with a different link.' },
+      { text: 'معرفتش احمل فيديو تيكتوك جرب لينك تاني' },
       { quoted: message }
     );
   }

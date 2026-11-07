@@ -20,13 +20,13 @@ async function shipCommand(sock, chatId, msg, groupMetadata) {
 
         // Create and send the ship message
         await sock.sendMessage(chatId, {
-            text: `${formatMention(firstUser)} ❤️ ${formatMention(secondUser)}\nCongratulations 💖🍻`,
+            text: `${formatMention(firstUser)} و ${formatMention(secondUser)}\nمبروك`,
             mentions: [firstUser, secondUser]
         });
 
     } catch (error) {
         console.error('Error in ship command:', error);
-        await sock.sendMessage(chatId, { text: '❌ Failed to ship! Make sure this is a group.' });
+        await sock.sendMessage(chatId, { text: 'معرفتش اعمل الحب اتأكد ان ده جروب' });
     }
 }
 

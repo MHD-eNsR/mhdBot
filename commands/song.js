@@ -31,7 +31,7 @@ async function resolveVideoInfo(text) {
         if (info?.videoId || info?.url) {
           return {
             url: info.url || `https://www.youtube.com/watch?v=${videoId}`,
-            title: info.title || 'YouTube Audio',
+            title: info.title || 'صوت يوتيوب',
             thumbnail: info.thumbnail || info.image || null,
             timestamp: info.timestamp || info.duration?.timestamp || '—',
           };
@@ -40,7 +40,7 @@ async function resolveVideoInfo(text) {
         console.log('[song] yts videoId lookup failed:', err?.message || err);
       }
     }
-    return { url: text.trim(), title: 'YouTube Audio', thumbnail: null, timestamp: '—' };
+    return { url: text.trim(), title: 'صوت يوتيوب', thumbnail: null, timestamp: '—' };
   }
 
   const search = await yts(text);
@@ -96,17 +96,17 @@ async function songCommand(sock, chatId, message) {
     const text = raw.replace(/^\.(?:play|song|mp3|ytmp3)\s*/i, '').trim();
 
     if (!text) {
-      await sock.sendMessage(chatId, { text: 'Usage: .song <song name or YouTube link>' }, { quoted: message });
+      await sock.sendMessage(chatId, { text: 'طريقة الاستخدام .اغنية اسم الاغنية او لينك يوتيوب' }, { quoted: message });
       return;
     }
 
     const video = await resolveVideoInfo(text);
     if (!video?.url) {
-      await sock.sendMessage(chatId, { text: 'No results found.' }, { quoted: message });
+      await sock.sendMessage(chatId, { text: 'مفيش نتايج' }, { quoted: message });
       return;
     }
 
-    const caption = `🎵 Downloading: *${video.title || 'YouTube Audio'}*\n⏱ Duration: ${video.timestamp || '—'}`;
+    const caption = `بحمل ${video.title || 'صوت يوتيوب'}\nالمدة ${video.timestamp || '—'}`;
     if (video.thumbnail && /^https?:\/\//i.test(video.thumbnail)) {
       await sock.sendMessage(chatId, { image: { url: video.thumbnail }, caption }, { quoted: message });
     } else {
@@ -208,11 +208,11 @@ async function songCommand(sock, chatId, message) {
     } catch {}
   } catch (err) {
     console.error('Song command error:', err);
-    let errorMessage = '❌ Failed to download song.';
-    if (err.message?.includes('All download sources failed')) {
-      errorMessage = '❌ All download sources failed. The content may be unavailable or blocked.';
+    let errorMessage = 'معرفتش احمل الاغنية';
+    if (err.message?.includes('كل مصادر التحميل فشلت')) {
+      errorMessage = 'كل مصادر التحميل فشلت يمكن المحتوى مش متاح او محجوب';
     } else if (err.message?.includes('blocked') || err.response?.status === 451) {
-      errorMessage = '❌ Download blocked or unavailable in your region.';
+      errorMessage = 'التحميل محجوب او مش متاح في بلدك';
     }
     await sock.sendMessage(chatId, { text: errorMessage }, { quoted: message });
   }

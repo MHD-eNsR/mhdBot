@@ -20,13 +20,7 @@ async function staffCommand(sock, chatId, msg) {
         const owner = groupMetadata.owner || groupAdmins.find(p => p.admin === 'superadmin')?.id || chatId.split('-')[0] + '@s.whatsapp.net';
 
         // Create staff text
-        const text = `
-≡ *GROUP ADMINS* _${groupMetadata.subject}_
-
-┌─⊷ *ADMINS*
-▢ ${listAdmin}
-└───────────
-`.trim();
+        const text = `\nادمنز الجروب ${groupMetadata.subject}\n\n${listAdmin}\n`.trim();
 
         // Send the message with image and mentions
         await sock.sendMessage(chatId, {
@@ -37,7 +31,7 @@ async function staffCommand(sock, chatId, msg) {
 
     } catch (error) {
         console.error('Error in staff command:', error);
-        await sock.sendMessage(chatId, { text: 'Failed to get admin list!' });
+        await sock.sendMessage(chatId, { text: 'معرفتش اجيب قايمة الادمنز' });
     }
 }
 

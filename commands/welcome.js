@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 
 async function welcomeCommand(sock, chatId, message, match) {
     if (!chatId.endsWith('@g.us')) {
-        await sock.sendMessage(chatId, { text: 'This command can only be used in groups.' });
+        await sock.sendMessage(chatId, { text: 'الامر ده بيشتغل في الجروبات بس' });
         return;
     }
 
@@ -39,7 +39,7 @@ async function handleJoinEvent(sock, id, participants) {
     const customMessage = await getWelcome(id);
     const groupMetadata = await sock.groupMetadata(id);
     const groupName = groupMetadata.subject;
-    const groupDesc = groupMetadata.desc || 'No description available';
+    const groupDesc = groupMetadata.desc || 'مفيش وصف';
 
     for (const participant of participants) {
         try {
@@ -85,7 +85,7 @@ async function handleJoinEvent(sock, id, participants) {
                     hour12: true
                 });
 
-                finalMessage = `╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: ${mentionTag} 👋\n┃Member count: #${groupMetadata.participants.length}\n┃𝚃𝙸𝙼𝙴: ${timeString}⏰\n╰━━━━━━━━━━━━━━━╯\n\n*${mentionTag}* Welcome to *${groupName}*! 🎉\n*Group 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝚃𝙸𝙾𝙽*\n${groupDesc}\n\n> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ Knight Bot*`;
+                finalMessage = `عضو جديد\n\nاهلا ${mentionTag}\nرقمك في الجروب ${groupMetadata.participants.length}\nالوقت ${timeString}\n\n${mentionTag} اهلا بيك في ${groupName}\nوصف الجروب\n${groupDesc}\n\nmhdBot`;
             }
 
             try {
@@ -134,7 +134,7 @@ async function handleJoinEvent(sock, id, participants) {
                     .replace(/{group}/g, groupName)
                     .replace(/{description}/g, groupDesc);
             } else {
-                fallbackMessage = `Welcome @${displayName} to ${groupName}! 🎉`;
+                fallbackMessage = `اهلا @${displayName} في ${groupName}`;
             }
 
             await sock.sendMessage(id, {

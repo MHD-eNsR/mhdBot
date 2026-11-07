@@ -1,3 +1,4 @@
+const { toArabic } = require('../lib/toArabic');
 const fetch = require('node-fetch');
 
 async function goodnightCommand(sock, chatId, message) {
@@ -10,13 +11,13 @@ async function goodnightCommand(sock, chatId, message) {
         }
         
         const json = await res.json();
-        const goodnightMessage = json.result;
+        const goodnightMessage = await toArabic(json.result);
 
         // Send the goodnight message
         await sock.sendMessage(chatId, { text: goodnightMessage }, { quoted: message });
     } catch (error) {
         console.error('Error in goodnight command:', error);
-        await sock.sendMessage(chatId, { text: '❌ Failed to get goodnight message. Please try again later!' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'معرفتش اجيب رسالة تصبح على خير جرب تاني بعد شوية' }, { quoted: message });
     }
 }
 

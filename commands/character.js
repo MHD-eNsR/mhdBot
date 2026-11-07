@@ -15,7 +15,7 @@ async function characterCommand(sock, chatId, message) {
     
     if (!userToAnalyze) {
         await sock.sendMessage(chatId, { 
-            text: 'Please mention someone or reply to their message to analyze their character!', 
+            text: 'منشن الشخص او رد على رسالته عشان احلل شخصيته', 
             ...channelInfo 
         });
         return;
@@ -56,11 +56,11 @@ async function characterCommand(sock, chatId, message) {
         });
 
         // Create character analysis message
-        const analysis = `🔮 *Character Analysis* 🔮\n\n` +
-            `👤 *User:* ${userToAnalyze.split('@')[0]}\n\n` +
-            `✨ *Key Traits:*\n${traitPercentages.join('\n')}\n\n` +
-            `🎯 *Overall Rating:* ${Math.floor(Math.random() * 21) + 80}%\n\n` +
-            `Note: This is a fun analysis and should not be taken seriously!`;
+        const analysis = `تحليل الشخصية\n\n` +
+            `الشخص ${userToAnalyze.split('@')[0]}\n\n` +
+            `الصفات\n${traitPercentages.join('\n')}\n\n` +
+            `التقييم العام ${Math.floor(Math.random() * 21) + 80} بالمية\n\n` +
+            `ملحوظة ده تحليل للتسلية بس ومتاخدوش جد`;
 
         // Send the analysis with the user's profile picture
         await sock.sendMessage(chatId, {
@@ -73,7 +73,7 @@ async function characterCommand(sock, chatId, message) {
     } catch (error) {
         console.error('Error in character command:', error);
         await sock.sendMessage(chatId, { 
-            text: 'Failed to analyze character! Try again later.',
+            text: 'معرفتش احلل الشخصية جرب تاني بعد شوية',
             ...channelInfo 
         });
     }

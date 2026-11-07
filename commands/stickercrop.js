@@ -131,7 +131,7 @@ async function addStickerMeta(webpBuffer) {
   await img.load(webpBuffer);
   const json = {
     'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-    'sticker-pack-name': settings.packname || 'KnightBot',
+    'sticker-pack-name': settings.packname || 'mhdBot',
     emojis: ['✂️'],
   };
   const exifAttr = Buffer.from([
@@ -269,7 +269,7 @@ async function stickercropCommand(sock, chatId, message) {
       return sock.sendMessage(
         chatId,
         {
-          text: '✂️ Reply to a *sticker*, *image*, or *video* that you want to crop.',
+          text: 'رد على ملصق او صورة او فيديو عايز تقصه',
         },
         { quoted: messageToQuote }
       );
@@ -286,7 +286,7 @@ async function stickercropCommand(sock, chatId, message) {
     if (!mediaBuffer) {
       return sock.sendMessage(
         chatId,
-        { text: '❌ Failed to download media. Please try again.' },
+        { text: 'معرفتش احمل الميديا جرب تاني' },
         { quoted: messageToQuote }
       );
     }
@@ -297,7 +297,7 @@ async function stickercropCommand(sock, chatId, message) {
     console.error('[crop]', error?.message || error);
     await sock.sendMessage(
       chatId,
-      { text: '❌ Failed to crop sticker! Try with an image or video.' },
+      { text: 'معرفتش اقص الملصق جرب بصورة او فيديو' },
       { quoted: message }
     );
   }

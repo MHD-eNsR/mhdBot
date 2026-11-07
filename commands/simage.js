@@ -23,7 +23,7 @@ const convertStickerToImage = async (sock, quotedMessage, chatId) => {
     try {
         const stickerMessage = quotedMessage.stickerMessage;
         if (!stickerMessage) {
-            await sock.sendMessage(chatId, { text: 'Reply to a sticker with .simage to convert it.' });
+            await sock.sendMessage(chatId, { text: 'رد على ملصق بالامر .لصورة عشان يتحول لصورة' });
             return;
         }
 
@@ -38,13 +38,13 @@ const convertStickerToImage = async (sock, quotedMessage, chatId) => {
         await sharp(stickerFilePath).toFormat('png').toFile(outputImagePath);
 
         const imageBuffer = await fsPromises.readFile(outputImagePath);
-        await sock.sendMessage(chatId, { image: imageBuffer, caption: 'Here is the converted image!' });
+        await sock.sendMessage(chatId, { image: imageBuffer, caption: 'دي الصورة بعد التحويل' });
 
         scheduleFileDeletion(stickerFilePath);
         scheduleFileDeletion(outputImagePath);
     } catch (error) {
         console.error('Error converting sticker to image:', error);
-        await sock.sendMessage(chatId, { text: 'An error occurred while converting the sticker.' });
+        await sock.sendMessage(chatId, { text: 'حصل خطأ وانا بحول الملصق' });
     }
 };
 

@@ -25,18 +25,18 @@ async function anticallCommand(sock, chatId, message, args) {
     const sub = (args || '').trim().toLowerCase();
 
     if (!sub || (sub !== 'on' && sub !== 'off' && sub !== 'status')) {
-        await sock.sendMessage(chatId, { text: '*ANTICALL*\n\n.anticall on  - Enable auto-block on incoming calls\n.anticall off - Disable anticall\n.anticall status - Show current status' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'منع المكالمات\n\n.منعمكالمات تشغيل  عشان يتحظر اي حد يتصل\n.منعمكالمات ايقاف  عشان تقفله\n.منعمكالمات حالة  عشان تشوف حالته' }, { quoted: message });
         return;
     }
 
     if (sub === 'status') {
-        await sock.sendMessage(chatId, { text: `Anticall is currently *${state.enabled ? 'ON' : 'OFF'}*.` }, { quoted: message });
+        await sock.sendMessage(chatId, { text: `منع المكالمات دلوقتي ${state.enabled ? 'شغال' : 'مقفول'}` }, { quoted: message });
         return;
     }
 
     const enable = sub === 'on';
     writeState(enable);
-    await sock.sendMessage(chatId, { text: `Anticall is now *${enable ? 'ENABLED' : 'DISABLED'}*.` }, { quoted: message });
+    await sock.sendMessage(chatId, { text: `منع المكالمات دلوقتي ${enable ? 'شغال' : 'مقفول'}` }, { quoted: message });
 }
 
 module.exports = { anticallCommand, readState };

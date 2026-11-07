@@ -7,8 +7,8 @@ const channelInfo = {
         forwardingScore: 1,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363161513685998@newsletter',
-            newsletterName: 'KnightBot MD',
+            newsletterJid: '120363189338764144@newsletter',
+            newsletterName: 'MHD dev',
             serverMessageId: -1
         }
     }
@@ -32,7 +32,7 @@ async function autoStatusCommand(sock, chatId, msg, args) {
         
         if (!msg.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, { 
-                text: '❌ This command can only be used by the owner!',
+                text: 'الامر ده لصاحب البوت بس',
                 ...channelInfo
             });
             return;
@@ -43,10 +43,10 @@ async function autoStatusCommand(sock, chatId, msg, args) {
 
         // If no arguments, show current status
         if (!args || args.length === 0) {
-            const status = config.enabled ? 'enabled' : 'disabled';
-            const reactStatus = config.reactOn ? 'enabled' : 'disabled';
+            const status = config.enabled ? 'شغال' : 'مقفول';
+            const reactStatus = config.reactOn ? 'شغال' : 'مقفول';
             await sock.sendMessage(chatId, { 
-                text: `🔄 *Auto Status Settings*\n\n📱 *Auto Status View:* ${status}\n💫 *Status Reactions:* ${reactStatus}\n\n*Commands:*\n.autostatus on - Enable auto status view\n.autostatus off - Disable auto status view\n.autostatus react on - Enable status reactions\n.autostatus react off - Disable status reactions`,
+                text: `اعدادات مشاهدة الحالات\n\nمشاهدة الحالات ${status}\nالتفاعل مع الحالات ${reactStatus}\n\nالاوامر\n.مشاهدةالحالات تشغيل  لتشغيل المشاهدة التلقائية\n.مشاهدةالحالات ايقاف  لايقافها\n.مشاهدةالحالات تفاعل تشغيل  لتشغيل التفاعل مع الحالات\n.مشاهدةالحالات تفاعل ايقاف  لايقاف التفاعل`,
                 ...channelInfo
             });
             return;
@@ -59,21 +59,21 @@ async function autoStatusCommand(sock, chatId, msg, args) {
             config.enabled = true;
             fs.writeFileSync(configPath, JSON.stringify(config));
             await sock.sendMessage(chatId, { 
-                text: '✅ Auto status view has been enabled!\nBot will now automatically view all contact statuses.',
+                text: 'مشاهدة الحالات اشتغلت\nالبوت دلوقتي هيشوف حالات كل جهات الاتصال تلقائي',
                 ...channelInfo
             });
         } else if (command === 'off') {
             config.enabled = false;
             fs.writeFileSync(configPath, JSON.stringify(config));
             await sock.sendMessage(chatId, { 
-                text: '❌ Auto status view has been disabled!\nBot will no longer automatically view statuses.',
+                text: 'مشاهدة الحالات اتقفلت\nالبوت مش هيشوف الحالات تلقائي تاني',
                 ...channelInfo
             });
         } else if (command === 'react') {
             // Handle react subcommand
             if (!args[1]) {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Please specify on/off for reactions!\nUse: .autostatus react on/off',
+                    text: 'حدد تشغيل او ايقاف للتفاعل\nاكتب .مشاهدةالحالات تفاعل تشغيل او ايقاف',
                     ...channelInfo
                 });
                 return;
@@ -84,25 +84,25 @@ async function autoStatusCommand(sock, chatId, msg, args) {
                 config.reactOn = true;
                 fs.writeFileSync(configPath, JSON.stringify(config));
                 await sock.sendMessage(chatId, { 
-                    text: '💫 Status reactions have been enabled!\nBot will now react to status updates.',
+                    text: 'التفاعل مع الحالات اشتغل\nالبوت دلوقتي هيتفاعل مع الحالات الجديدة',
                     ...channelInfo
                 });
             } else if (reactCommand === 'off') {
                 config.reactOn = false;
                 fs.writeFileSync(configPath, JSON.stringify(config));
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Status reactions have been disabled!\nBot will no longer react to status updates.',
+                    text: 'التفاعل مع الحالات اتقفل\nالبوت مش هيتفاعل مع الحالات تاني',
                     ...channelInfo
                 });
             } else {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Invalid reaction command! Use: .autostatus react on/off',
+                    text: 'امر التفاعل غلط اكتب .مشاهدةالحالات تفاعل تشغيل او ايقاف',
                     ...channelInfo
                 });
             }
         } else {
             await sock.sendMessage(chatId, { 
-                text: '❌ Invalid command! Use:\n.autostatus on/off - Enable/disable auto status view\n.autostatus react on/off - Enable/disable status reactions',
+                text: 'الامر غلط اكتب\n.مشاهدةالحالات تشغيل او ايقاف  لتشغيل او ايقاف المشاهدة\n.مشاهدةالحالات تفاعل تشغيل او ايقاف  لتشغيل او ايقاف التفاعل',
                 ...channelInfo
             });
         }
@@ -110,7 +110,7 @@ async function autoStatusCommand(sock, chatId, msg, args) {
     } catch (error) {
         console.error('Error in autostatus command:', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Error occurred while managing auto status!\n' + error.message,
+            text: 'حصل خطأ وانا بظبط مشاهدة الحالات\n' + error.message,
             ...channelInfo
         });
     }

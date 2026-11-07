@@ -1,7 +1,7 @@
 {
-  "name": "knightbot",
+  "name": "mhdbot",
   "version": "1.0.0",
-  "description": "WhatsApp Bot",
+  "description": "mhdBot - بوت واتساب بالعربي المصري",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -45,6 +45,7 @@
     "libsignal": "^2.0.1",
     "link-preview-js": "^3.0.5",
     "moment-timezone": "^0.5.43",
+    "malvin-btns": "latest",
     "mumaker": "^2.0.0",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.7.0",

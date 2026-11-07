@@ -63,16 +63,16 @@ async function antibotCommand(sock, chatId, message, senderId) {
   const reply = (text) => sock.sendMessage(chatId, { text }, { quoted: message });
 
   if (!chatId.endsWith('@g.us')) {
-    return reply('👥 This command can only be used in groups.');
+    return reply('الامر ده بيشتغل في الجروبات بس');
   }
 
   const owner = message.key.fromMe || (await isOwnerOrSudo(senderId, sock, chatId));
   const adminStatus = await isAdmin(sock, chatId, senderId);
   if (!adminStatus.isBotAdmin) {
-    return reply('❌ Please make the bot an admin first.');
+    return reply('خلي البوت ادمن الاول');
   }
   if (!owner && !adminStatus.isSenderAdmin) {
-    return reply('❌ Only group admins can use this command.');
+    return reply('الامر ده للادمنز بس');
   }
 
   const text =
@@ -83,46 +83,46 @@ async function antibotCommand(sock, chatId, message, senderId) {
 
   if (!opt) {
     return reply(
-      `🤖 *Antibot Status*\n\n` +
-        `Status: *${cfg.enabled ? 'ON' : 'OFF'}*\n` +
-        `Action: *${cfg.action}*\n\n` +
-        `Admins, owner, and this bot are exempt.\n` +
-        `Detects other Baileys bots by message-ID pattern.\n\n` +
-        `Usage:\n` +
-        `  \`.antibot on\`\n` +
-        `  \`.antibot off\`\n` +
-        `  \`.antibot set warn | kick\`\n` +
-        `  \`.antibot get\``
+      `حالة منع البوتات\n\n` +
+        `الحالة ${cfg.enabled ? 'شغال' : 'مقفول'}\n` +
+        `الاجراء ${cfg.action}\n\n` +
+        `الادمنز وصاحب البوت والبوت نفسه مستثنيين\n` +
+        `البوت بيكشف البوتات التانية من شكل ايدي الرسالة\n\n` +
+        `طريقة الاستخدام\n` +
+        `  .منعبوت تشغيل\n` +
+        `  .منعبوت ايقاف\n` +
+        `  .منعبوت ضبط انذار او طرد\n` +
+        `  .منعبوت عرض`
     );
   }
 
   if (opt === 'on') {
-    if (cfg.enabled) return reply('*Antibot is already on*');
+    if (cfg.enabled) return reply('منع البوتات شغال بالفعل');
     setConfig(chatId, { enabled: true });
-    return reply('*Antibot has been turned ON*');
+    return reply('منع البوتات اشتغل');
   }
 
   if (opt === 'off') {
     setConfig(chatId, { enabled: false });
-    return reply('*Antibot has been turned OFF*');
+    return reply('منع البوتات اتقفل');
   }
 
   if (opt === 'set') {
     const setAction = (args[1] || '').toLowerCase();
     if (!['warn', 'kick'].includes(setAction)) {
-      return reply('*Invalid action. Choose warn or kick.*\n`.antibot set warn | kick`');
+      return reply('الاجراء غلط اختار انذار او طرد\n.منعبوت ضبط انذار او طرد');
     }
     setConfig(chatId, { enabled: true, action: setAction });
-    return reply(`*Antibot action set to ${setAction}*`);
+    return reply(`اجراء منع البوتات بقى ${setAction}`);
   }
 
   if (opt === 'get') {
     return reply(
-      `*Antibot Configuration:*\nStatus: ${cfg.enabled ? 'ON' : 'OFF'}\nAction: ${cfg.action}`
+      `اعدادات منع البوتات\nالحالة ${cfg.enabled ? 'شغال' : 'مقفول'}\nالاجراء ${cfg.action}`
     );
   }
 
-  return reply('*Use `.antibot` for usage.*');
+  return reply('اكتب .منعبوت عشان تشوف طريقة الاستخدام');
 }
 
 /**
@@ -195,13 +195,13 @@ async function handleAntibotDetection(sock, message) {
       try {
         await sock.groupParticipantsUpdate(chatId, [kickJid], 'remove');
         await sock.sendMessage(chatId, {
-          text: `🤖 *@${tag}* was kicked — other bots are not allowed here.`,
+          text: `@${tag} اتطرد البوتات التانية ممنوعة هنا`,
           mentions,
         });
       } catch (e) {
         console.error('[antibot] kick:', e?.message || e);
         await sock.sendMessage(chatId, {
-          text: `🤖 Bot activity detected from *@${tag}* (kick failed — check bot admin rights).`,
+          text: `لقيت نشاط بوت من @${tag} بس معرفتش اطرده اتأكد ان البوت ادمن`,
           mentions,
         });
       }
@@ -215,7 +215,7 @@ async function handleAntibotDetection(sock, message) {
         await sock.groupParticipantsUpdate(chatId, [kickJid], 'remove');
         await resetWarningCount(chatId, kickJid);
         await sock.sendMessage(chatId, {
-          text: `🤖 *@${tag}* kicked after 3 antibot warnings.`,
+          text: `@${tag} اتطرد بعد 3 انذارات على استخدام بوت`,
           mentions,
         });
       } catch (e) {
@@ -223,7 +223,7 @@ async function handleAntibotDetection(sock, message) {
       }
     } else {
       await sock.sendMessage(chatId, {
-        text: `🤖 *@${tag}* warning ${warningCount}/3 — other bots are not allowed.`,
+        text: `@${tag} انذار ${warningCount} من 3 البوتات التانية ممنوعة`,
         mentions,
       });
     }

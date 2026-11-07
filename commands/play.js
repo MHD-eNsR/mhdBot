@@ -8,7 +8,7 @@ async function playCommand(sock, chatId, message) {
         
         if (!searchQuery) {
             return await sock.sendMessage(chatId, { 
-                text: "What song do you want to download?"
+                text: "عايز تحمل انهي اغنية"
             });
         }
 
@@ -16,13 +16,13 @@ async function playCommand(sock, chatId, message) {
         const { videos } = await yts(searchQuery);
         if (!videos || videos.length === 0) {
             return await sock.sendMessage(chatId, { 
-                text: "No songs found!"
+                text: "مفيش اغاني بالاسم ده"
             });
         }
 
         // Send loading message
         await sock.sendMessage(chatId, {
-            text: "_Please wait your download is in progress_"
+            text: "استنى التحميل شغال"
         });
 
         // Get the first video result
@@ -35,7 +35,7 @@ async function playCommand(sock, chatId, message) {
 
         if (!data || !data.status || !data.result || !data.result.downloadUrl) {
             return await sock.sendMessage(chatId, { 
-                text: "Failed to fetch audio from the API. Please try again later."
+                text: "معرفتش اجيب الصوت جرب تاني بعد شوية"
             });
         }
 
@@ -52,7 +52,7 @@ async function playCommand(sock, chatId, message) {
     } catch (error) {
         console.error('Error in song2 command:', error);
         await sock.sendMessage(chatId, { 
-            text: "Download failed. Please try again later."
+            text: "فشل التحميل جرب تاني بعد شوية"
         });
     }
 }

@@ -5,7 +5,7 @@ const isAdmin = require('../lib/isAdmin');
 async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSenderAdmin, message) {
     try {
         if (!isSenderAdmin) {
-            await sock.sendMessage(chatId, { text: '```For Group Admins Only!```' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: 'الامر ده للادمنز بس' }, { quoted: message });
             return;
         }
 
@@ -14,7 +14,7 @@ async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSend
         const action = args[0];
 
         if (!action) {
-            const usage = `\`\`\`ANTILINK SETUP\n\n${prefix}antilink on\n${prefix}antilink set delete | kick | warn\n${prefix}antilink off\n\`\`\``;
+            const usage = `اعدادات منع اللينكات\n\n${prefix}منعلينك تشغيل\n${prefix}منعلينك ضبط حذف او طرد او انذار\n${prefix}منعلينك ايقاف\n`;
             await sock.sendMessage(chatId, { text: usage }, { quoted: message });
             return;
         }
@@ -23,37 +23,37 @@ async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSend
             case 'on':
                 const existingConfig = await getAntilink(chatId, 'on');
                 if (existingConfig?.enabled) {
-                    await sock.sendMessage(chatId, { text: '*_Antilink is already on_*' }, { quoted: message });
+                    await sock.sendMessage(chatId, { text: 'منع اللينكات شغال بالفعل' }, { quoted: message });
                     return;
                 }
                 const result = await setAntilink(chatId, 'on', 'delete');
                 await sock.sendMessage(chatId, { 
-                    text: result ? '*_Antilink has been turned ON_*' : '*_Failed to turn on Antilink_*' 
+                    text: result ? 'منع اللينكات اشتغل' : 'معرفتش اشغل منع اللينكات' 
                 },{ quoted: message });
                 break;
 
             case 'off':
                 await removeAntilink(chatId, 'on');
-                await sock.sendMessage(chatId, { text: '*_Antilink has been turned OFF_*' }, { quoted: message });
+                await sock.sendMessage(chatId, { text: 'منع اللينكات اتقفل' }, { quoted: message });
                 break;
 
             case 'set':
                 if (args.length < 2) {
                     await sock.sendMessage(chatId, { 
-                        text: `*_Please specify an action: ${prefix}antilink set delete | kick | warn_*` 
+                        text: `حدد الاجراء الاول ${prefix}منعلينك ضبط حذف او طرد او انذار` 
                     }, { quoted: message });
                     return;
                 }
                 const setAction = args[1];
                 if (!['delete', 'kick', 'warn'].includes(setAction)) {
                     await sock.sendMessage(chatId, { 
-                        text: '*_Invalid action. Choose delete, kick, or warn._*' 
+                        text: 'الاجراء غلط اختار حذف او طرد او انذار' 
                     }, { quoted: message });
                     return;
                 }
                 const setResult = await setAntilink(chatId, 'on', setAction);
                 await sock.sendMessage(chatId, { 
-                    text: setResult ? `*_Antilink action set to ${setAction}_*` : '*_Failed to set Antilink action_*' 
+                    text: setResult ? `اجراء منع اللينكات بقى ${setAction}` : 'معرفتش اضبط اجراء منع اللينكات' 
                 }, { quoted: message });
                 break;
 
@@ -61,16 +61,16 @@ async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSend
                 const status = await getAntilink(chatId, 'on');
                 const actionConfig = await getAntilink(chatId, 'on');
                 await sock.sendMessage(chatId, { 
-                    text: `*_Antilink Configuration:_*\nStatus: ${status ? 'ON' : 'OFF'}\nAction: ${actionConfig ? actionConfig.action : 'Not set'}` 
+                    text: `اعدادات منع اللينكات\nالحالة ${status ? 'شغال' : 'مقفول'}\nالاجراء ${actionConfig ? actionConfig.action : 'مش متحدد'}` 
                 }, { quoted: message });
                 break;
 
             default:
-                await sock.sendMessage(chatId, { text: `*_Use ${prefix}antilink for usage._*` });
+                await sock.sendMessage(chatId, { text: `اكتب ${prefix}منعلينك عشان تشوف طريقة الاستخدام` });
         }
     } catch (error) {
         console.error('Error in antilink command:', error);
-        await sock.sendMessage(chatId, { text: '*_Error processing antilink command_*' });
+        await sock.sendMessage(chatId, { text: 'حصل خطأ في امر منع اللينكات' });
     }
 }
 
@@ -129,7 +129,7 @@ async function handleLinkDetection(sock, chatId, message, userMessage, senderId)
         }
 
         const mentionedJidList = [senderId];
-        await sock.sendMessage(chatId, { text: `Warning! @${senderId.split('@')[0]}, posting links is not allowed.`, mentions: mentionedJidList });
+        await sock.sendMessage(chatId, { text: `انتبه @${senderId.split('@')[0]} ممنوع تبعت لينكات هنا`, mentions: mentionedJidList });
     } else {
         console.log('No link detected or protection not enabled for this type of link.');
     }

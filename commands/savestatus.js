@@ -193,12 +193,12 @@ async function fetchStatusMedia(sock, fullMsg, mediaMsg, type) {
 function statusHeader(candidates) {
   // participantAlt (phone) first, then participant (may be @lid)
   const who = lidToMention(candidates);
-  if (!who.jid) return { text: '💾 *Saved Status*', mentions: [] };
+  if (!who.jid) return { text: 'حالة محفوظة', mentions: [] };
   if (who.number) {
-    return { text: `💾 *Saved Status* from ${who.text}`, mentions: who.mentions };
+    return { text: `حالة محفوظة من ${who.text}`, mentions: who.mentions };
   }
   // LID not mapped yet — still mention, but don't show raw lid as "+number"
-  return { text: `💾 *Saved Status* from ${who.text}`, mentions: who.mentions };
+  return { text: `حالة محفوظة من ${who.text}`, mentions: who.mentions };
 }
 
 function remember(msg) {
@@ -385,7 +385,7 @@ async function autoSave(sock, msg) {
       autoHourly.push(Date.now());
     } catch (error) {
       savedIds.delete(msg.key.id); // allow retry later
-      if (error.message === 'Unsupported status type' || error.message === 'Empty status') return;
+      if (error.message === 'نوع الحالة مش مدعوم' || error.message === 'الحالة فاضية') return;
       if (/too large/i.test(error.message)) return;
       console.error('[savestatus] auto:', error.message);
     }
@@ -398,7 +398,7 @@ async function savestatusCommand(sock, chatId, message, senderId) {
   try {
     const isOwner = message.key.fromMe || (await isOwnerOrSudo(senderId, sock, chatId));
     if (!isOwner) {
-      return reply('❌ This command can only be used by the owner!');
+      return reply('الامر ده لصاحب البوت بس');
     }
 
     const text =
@@ -409,13 +409,13 @@ async function savestatusCommand(sock, chatId, message, senderId) {
     if (['on', 'off', 'enable', 'disable'].includes(sub)) {
       const enable = sub === 'on' || sub === 'enable';
       if (enable === isEnabled()) {
-        return reply(`💾 Auto-save is already *${enable ? 'ON' : 'OFF'}*.`);
+        return reply(`الحفظ التلقائي ${enable ? 'شغال' : 'مقفول'} بالفعل`);
       }
       setEnabled(enable);
       return reply(
         enable
-          ? '💾 *Auto-save ON* (safe mode).\n• Max 20/hour\n• 12s gap between saves\n• Large media skipped\n\nEvery new status will be forwarded slowly to your chat.'
-          : '💾 *Auto-save OFF.*'
+          ? 'الحفظ التلقائي اشتغل بالوضع الامن\n• اقصى حد 20 في الساعة\n• 12 ثانية بين كل حفظ\n• الميديا الكبيرة بتتخطى\n\nكل حالة جديدة هتتبعتلك بالراحة في الشات'
+          : 'الحفظ التلقائي اتقفل'
       );
     }
 
@@ -431,7 +431,7 @@ async function savestatusCommand(sock, chatId, message, senderId) {
       participantAlt: ctx?.participantAlt || cached?.key?.participantAlt,
     };
     if (statusKey.id) {
-      await reply('⏳ Fetching status media…');
+      await reply('بجيب ميديا الحالة');
       await prefetchStatus(sock, statusKey, 2500);
       // Re-check cache after view (upsert may have filled full message)
       cached = findRecent(stanzaId) || cached;
@@ -446,7 +446,7 @@ async function savestatusCommand(sock, chatId, message, senderId) {
 
     if (content) {
       const dest = ownerJid(sock);
-      if (!dest) return reply('❌ Owner number is not set in settings.js.');
+      if (!dest) return reply('رقم صاحب البوت مش متحدد في ملف الاعدادات');
       const header = statusHeader([
         ctx?.participantAlt,
         cached?.key?.participantAlt,
@@ -458,11 +458,11 @@ async function savestatusCommand(sock, chatId, message, senderId) {
         await saveStatusContent(sock, dest, content, header.text, header.mentions, statusKey, {
           manual: true,
         });
-        if (chatId !== dest) await reply('✅ Status saved to your chat.');
-        else await reply('✅ Status saved.');
+        if (chatId !== dest) await reply('الحالة اتحفظت في الشات بتاعك');
+        else await reply('الحالة اتحفظت');
       } catch (error) {
         console.error('[savestatus]', error.message);
-        return reply(`❌ Could not save that status. ${error.message}`);
+        return reply(`معرفتش احفظ الحالة ${error.message}`);
       }
       return;
     }
@@ -470,19 +470,19 @@ async function savestatusCommand(sock, chatId, message, senderId) {
     if (!args[0] || sub === 'status') {
       const on = isEnabled();
       return reply(
-        `💾 *Save status*\n\n` +
-          `Auto-save: *${on ? 'ON' : 'OFF'}*\n\n` +
-          `Reply to a status → \`.savestatus\`\n` +
-          `\`.savestatus on\` — slow auto-save (rate-limited)\n` +
-          `\`.savestatus off\` — stop\n\n` +
-          `_Tip: keep only one bot instance running to avoid WhatsApp conflicts._`
+        `حفظ الحالات\n\n` +
+          `الحفظ التلقائي ${on ? 'شغال' : 'مقفول'}\n\n` +
+          `رد على حالة بالامر .حفظالحالات\n` +
+          `.حفظالحالات تشغيل  حفظ تلقائي بطيء\n` +
+          `.حفظالحالات ايقاف  ايقاف الحفظ\n\n` +
+          `نصيحة سيب نسخة واحدة بس من البوت شغالة عشان متحصلش مشاكل مع واتساب`
       );
     }
 
-    return reply('Reply to a status, then send `.savestatus`.');
+    return reply('رد على حالة وبعدها ابعت .حفظالحالات');
   } catch (err) {
     console.error('[savestatus]', err?.message || err);
-    await reply('❌ Error: ' + (err.message || 'Unknown'));
+    await reply('حصل خطأ ' + (err.message || 'Unknown'));
   }
 }
 

@@ -33,7 +33,7 @@ function incrementMessageCount(groupId, userId) {
 
 function topMembers(sock, chatId, isGroup) {
     if (!isGroup) {
-        sock.sendMessage(chatId, { text: 'This command is only available in group chats.' });
+        sock.sendMessage(chatId, { text: 'الامر ده بيشتغل في الجروبات بس' });
         return;
     }
 
@@ -45,13 +45,13 @@ function topMembers(sock, chatId, isGroup) {
         .slice(0, 5); // Get top 5 members
 
     if (sortedMembers.length === 0) {
-        sock.sendMessage(chatId, { text: 'No message activity recorded yet.' });
+        sock.sendMessage(chatId, { text: 'مفيش نشاط رسايل متسجل لسه' });
         return;
     }
 
-    let message = '🏆 Top Members Based on Message Count:\n\n';
+    let message = 'اكتر الاعضاء نشاطا حسب عدد الرسايل\n\n';
     sortedMembers.forEach(([userId, count], index) => {
-        message += `${index + 1}. @${userId.split('@')[0]} - ${count} messages\n`;
+        message += `${index + 1} @${userId.split('@')[0]} ${count} رسالة\n`;
     });
 
     sock.sendMessage(chatId, { text: message, mentions: sortedMembers.map(([userId]) => userId) });

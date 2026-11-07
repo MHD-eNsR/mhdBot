@@ -17,7 +17,7 @@ async function settingsCommand(sock, chatId, message) {
         const isOwner = await isOwnerOrSudo(senderId, sock, chatId);
         
         if (!message.key.fromMe && !isOwner) {
-            await sock.sendMessage(chatId, { text: 'Only bot owner can use this command!' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: 'الامر ده لصاحب البوت بس' }, { quoted: message });
             return;
         }
 
@@ -45,47 +45,47 @@ async function settingsCommand(sock, chatId, message) {
         const antitagCfg = groupId ? (userGroupData.antitag && userGroupData.antitag[groupId]) : null;
 
         const lines = [];
-        lines.push('*BOT SETTINGS*');
+        lines.push('اعدادات البوت');
         lines.push('');
-        lines.push(`• Mode: ${mode.isPublic ? 'Public' : 'Private'}`);
-        lines.push(`• Auto Status: ${autoStatus.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• Autoread: ${autoread.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• Autotyping: ${autotyping.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• PM Blocker: ${pmblocker.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• Anticall: ${anticall.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• Auto Reaction: ${autoReaction ? 'ON' : 'OFF'}`);
+        lines.push(`الوضع ${mode.isPublic ? 'عام' : 'خاص'}`);
+        lines.push(`مشاهدة الحالات ${autoStatus.enabled ? 'شغال' : 'مقفول'}`);
+        lines.push(`القراءة التلقائية ${autoread.enabled ? 'شغال' : 'مقفول'}`);
+        lines.push(`الكتابة التلقائية ${autotyping.enabled ? 'شغال' : 'مقفول'}`);
+        lines.push(`منع الخاص ${pmblocker.enabled ? 'شغال' : 'مقفول'}`);
+        lines.push(`منع المكالمات ${anticall.enabled ? 'شغال' : 'مقفول'}`);
+        lines.push(`الرد التلقائي ${autoReaction ? 'شغال' : 'مقفول'}`);
         if (groupId) {
             lines.push('');
-            lines.push(`Group: ${groupId}`);
+            lines.push(`الجروب ${groupId}`);
             if (antilinkOn) {
                 const al = userGroupData.antilink[groupId];
-                lines.push(`• Antilink: ON (action: ${al.action || 'delete'})`);
+                lines.push(`منع اللينكات شغال والاجراء ${al.action || 'delete'}`);
             } else {
-                lines.push('• Antilink: OFF');
+                lines.push('منع اللينكات مقفول');
             }
             if (antibadwordOn) {
                 const ab = userGroupData.antibadword[groupId];
-                lines.push(`• Antibadword: ON (action: ${ab.action || 'delete'})`);
+                lines.push(`منع السب شغال والاجراء ${ab.action || 'delete'}`);
             } else {
-                lines.push('• Antibadword: OFF');
+                lines.push('منع السب مقفول');
             }
-            lines.push(`• Welcome: ${welcomeOn ? 'ON' : 'OFF'}`);
-            lines.push(`• Goodbye: ${goodbyeOn ? 'ON' : 'OFF'}`);
-            lines.push(`• Chatbot: ${chatbotOn ? 'ON' : 'OFF'}`);
+            lines.push(`الترحيب ${welcomeOn ? 'شغال' : 'مقفول'}`);
+            lines.push(`الوداع ${goodbyeOn ? 'شغال' : 'مقفول'}`);
+            lines.push(`الشات بوت ${chatbotOn ? 'شغال' : 'مقفول'}`);
             if (antitagCfg && antitagCfg.enabled) {
-                lines.push(`• Antitag: ON (action: ${antitagCfg.action || 'delete'})`);
+                lines.push(`منع المنشن شغال والاجراء ${antitagCfg.action || 'delete'}`);
             } else {
-                lines.push('• Antitag: OFF');
+                lines.push('منع المنشن مقفول');
             }
         } else {
             lines.push('');
-            lines.push('Note: Per-group settings will be shown when used inside a group.');
+            lines.push('ملحوظة اعدادات الجروب بتظهر لما تستخدم الامر جوه جروب');
         }
 
         await sock.sendMessage(chatId, { text: lines.join('\n') }, { quoted: message });
     } catch (error) {
         console.error('Error in settings command:', error);
-        await sock.sendMessage(chatId, { text: 'Failed to read settings.' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'معرفتش اقرا الاعدادات' }, { quoted: message });
     }
 }
 

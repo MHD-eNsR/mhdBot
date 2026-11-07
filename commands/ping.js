@@ -10,10 +10,10 @@ function formatTime(seconds) {
     seconds = Math.floor(seconds % 60);
 
     let time = '';
-    if (days > 0) time += `${days}d `;
-    if (hours > 0) time += `${hours}h `;
-    if (minutes > 0) time += `${minutes}m `;
-    if (seconds > 0 || time === '') time += `${seconds}s`;
+    if (days > 0) time += `${days} يوم `;
+    if (hours > 0) time += `${hours} ساعة `;
+    if (minutes > 0) time += `${minutes} دقيقة `;
+    if (seconds > 0 || time === '') time += `${seconds} ثانية`;
 
     return time.trim();
 }
@@ -21,26 +21,21 @@ function formatTime(seconds) {
 async function pingCommand(sock, chatId, message) {
     try {
         const start = Date.now();
-        await sock.sendMessage(chatId, { text: 'Pong!' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'بونج' }, { quoted: message });
         const end = Date.now();
         const ping = Math.round((end - start) / 2);
 
         const uptimeInSeconds = process.uptime();
         const uptimeFormatted = formatTime(uptimeInSeconds);
 
-        const botInfo = `
-┏━━〔 🤖 𝐊𝐧𝐢𝐠𝐡𝐭𝐁𝐨𝐭-𝐌𝐃 〕━━┓
-┃ 🚀 Ping     : ${ping} ms
-┃ ⏱️ Uptime   : ${uptimeFormatted}
-┃ 🔖 Version  : v${settings.version}
-┗━━━━━━━━━━━━━━━━━━━┛`.trim();
+        const botInfo = `\nبنج ${ping} ملي ثانية\nمدة التشغيل ${uptimeFormatted}\nالاصدار ${settings.version}\n`.trim();
 
         // Reply to the original message with the bot info
         await sock.sendMessage(chatId, { text: botInfo},{ quoted: message });
 
     } catch (error) {
         console.error('Error in ping command:', error);
-        await sock.sendMessage(chatId, { text: '❌ Failed to get bot status.' });
+        await sock.sendMessage(chatId, { text: 'معرفتش اجيب حالة البوت' });
     }
 }
 

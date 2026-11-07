@@ -26,13 +26,13 @@ async function autotypingCommand(sock, chatId, message) {
         
         if (!message.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, {
-                text: '❌ This command is only available for the owner!',
+                text: 'الامر ده لصاحب البوت بس',
                 contextInfo: {
                     forwardingScore: 1,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
+                        newsletterJid: '120363189338764144@newsletter',
+                        newsletterName: 'MHD dev',
                         serverMessageId: -1
                     }
                 }
@@ -57,13 +57,13 @@ async function autotypingCommand(sock, chatId, message) {
                 config.enabled = false;
             } else {
                 await sock.sendMessage(chatId, {
-                    text: '❌ Invalid option! Use: .autotyping on/off',
+                    text: 'الاختيار غلط اكتب .كتابةتلقائية تشغيل او ايقاف',
                     contextInfo: {
                         forwardingScore: 1,
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
-                            newsletterJid: '120363161513685998@newsletter',
-                            newsletterName: 'KnightBot MD',
+                            newsletterJid: '120363189338764144@newsletter',
+                            newsletterName: 'MHD dev',
                             serverMessageId: -1
                         }
                     }
@@ -80,13 +80,13 @@ async function autotypingCommand(sock, chatId, message) {
         
         // Send confirmation message
         await sock.sendMessage(chatId, {
-            text: `✅ Auto-typing has been ${config.enabled ? 'enabled' : 'disabled'}!`,
+            text: `الكتابة التلقائية ${config.enabled ? 'شغال' : 'مقفول'}`,
             contextInfo: {
                 forwardingScore: 1,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterJid: '120363189338764144@newsletter',
+                    newsletterName: 'MHD dev',
                     serverMessageId: -1
                 }
             }
@@ -95,13 +95,13 @@ async function autotypingCommand(sock, chatId, message) {
     } catch (error) {
         console.error('Error in autotyping command:', error);
         await sock.sendMessage(chatId, {
-            text: '❌ Error processing command!',
+            text: 'حصل خطأ في تنفيذ الامر',
             contextInfo: {
                 forwardingScore: 1,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterJid: '120363189338764144@newsletter',
+                    newsletterName: 'MHD dev',
                     serverMessageId: -1
                 }
             }

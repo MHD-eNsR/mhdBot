@@ -16,7 +16,7 @@ async function soraCommand(sock, chatId, message) {
         const input = args || quotedText;
 
         if (!input) {
-            await sock.sendMessage(chatId, { text: 'Provide a prompt. Example: .sora anime girl with short blue hair' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: 'اكتب وصف للفيديو\nمثال .سورا بنت انمي بشعر ازرق قصير' }, { quoted: message });
             return;
         }
 
@@ -31,12 +31,12 @@ async function soraCommand(sock, chatId, message) {
         await sock.sendMessage(chatId, {
             video: { url: videoUrl },
             mimetype: 'video/mp4',
-            caption: `Prompt: ${input}`
+            caption: `الوصف ${input}`
         }, { quoted: message });
 
     } catch (error) {
         console.error('[SORA] error:', error?.message || error);
-        await sock.sendMessage(chatId, { text: 'Failed to generate video. Try a different prompt later.' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'معرفتش اعمل الفيديو جرب بوصف تاني بعد شوية' }, { quoted: message });
     }
 }
 

@@ -29,7 +29,7 @@ module.exports = {
     name: 'removebg',
     alias: ['rmbg', 'nobg'],
     category: 'general',
-    desc: 'Remove background from images',
+    desc: 'شيل الخلفية من الصور',
     async exec(sock, message, args) {
         try {
             const chatId = message.key.remoteJid;
@@ -42,7 +42,7 @@ module.exports = {
                     imageUrl = url;
                 } else {
                     return sock.sendMessage(chatId, { 
-                        text: '❌ Invalid URL provided.\n\nUsage: `.removebg https://example.com/image.jpg`' 
+                        text: 'الرابط غلط\n\nطريقة الاستخدام .شيلالخلفية https://example.com/image.jpg' 
                     }, { quoted: message });
                 }
             } else {
@@ -51,7 +51,7 @@ module.exports = {
                 
                 if (!imageUrl) {
                     return sock.sendMessage(chatId, { 
-                        text: '📸 *Remove Background Command*\n\nUsage:\n• `.removebg <image_url>`\n• Reply to an image with `.removebg`\n• Send image with `.removebg`\n\nExample: `.removebg https://example.com/image.jpg`' 
+                        text: 'امر شيل الخلفية\n\nطريقة الاستخدام\n• .شيلالخلفية وبعدها رابط الصورة\n• رد على صورة بالامر .شيلالخلفية\n• ابعت صورة وفي الكابشن .شيلالخلفية\n\nمثال .شيلالخلفية https://example.com/image.jpg' 
                     }, { quoted: message });
                 }
             }
@@ -72,7 +72,7 @@ module.exports = {
                 // Send the processed image
                 await sock.sendMessage(chatId, {
                     image: response.data,
-                    caption: '✨ *Background removed successfully!*\n\n𝗣𝗥𝗢𝗖𝗘𝗦𝗦𝗘𝗗 𝗕𝗬 𝗞𝗡𝗜𝗚𝗛𝗧-𝗕𝗢𝗧'
+                    caption: 'الخلفية اتشالت بنجاح\n\nتمت المعالجة بواسطة mhdBot'
                 }, { quoted: message });
             } else {
                 throw new Error('Failed to process image');
@@ -81,18 +81,18 @@ module.exports = {
         } catch (error) {
             console.error('RemoveBG Error:', error.message);
             
-            let errorMessage = '❌ Failed to remove background.';
+            let errorMessage = 'معرفتش اشيل الخلفية';
             
             if (error.response?.status === 429) {
-                errorMessage = '⏰ Rate limit exceeded. Please try again later.';
+                errorMessage = 'عدد الطلبات زاد عن الحد جرب تاني بعد شوية';
             } else if (error.response?.status === 400) {
-                errorMessage = '❌ Invalid image URL or format.';
+                errorMessage = 'رابط الصورة او صيغتها غلط';
             } else if (error.response?.status === 500) {
-                errorMessage = '🔧 Server error. Please try again later.';
+                errorMessage = 'فيه مشكلة في السيرفر جرب تاني بعد شوية';
             } else if (error.code === 'ECONNABORTED') {
-                errorMessage = '⏰ Request timeout. Please try again.';
+                errorMessage = 'الطلب خد وقت طويل جرب تاني';
             } else if (error.message.includes('ENOTFOUND') || error.message.includes('ECONNREFUSED')) {
-                errorMessage = '🌐 Network error. Please check your connection.';
+                errorMessage = 'فيه مشكلة في الشبكة اتأكد من النت';
             }
             
             await sock.sendMessage(chatId, { 

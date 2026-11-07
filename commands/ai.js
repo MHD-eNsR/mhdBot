@@ -9,7 +9,7 @@ async function aiCommand(sock, chatId, message) {
     if (!query) {
       return sock.sendMessage(
         chatId,
-        { text: 'Usage: `.ai <question>`\nExample: `.ai write a basic html page`' },
+        { text: 'اكتب الامر وبعده سؤالك\nمثال\n.ذكاء اكتبلي صفحة اتش تي ام ال بسيطة' },
         { quoted: message }
       );
     }
@@ -18,8 +18,8 @@ async function aiCommand(sock, chatId, message) {
 
     let answer;
     const steps = [
-      ['Knight chat', () => APIs.knightChatAI(query)],
-      ['Knight gpt', () => APIs.knightGptAI(query)],
+      ['mhdBot', () => APIs.knightChatAI(query)],
+      ['mhdBot', () => APIs.knightGptAI(query)],
       ['fallback', () => APIs.fallbackChatAI(query)],
     ];
 
@@ -38,7 +38,7 @@ async function aiCommand(sock, chatId, message) {
     if (!answer) {
       return sock.sendMessage(
         chatId,
-        { text: '❌ Failed to get AI response. Try again later.' },
+        { text: 'معرفتش اجيب رد من الذكاء الاصطناعي جرب تاني بعد شوية' },
         { quoted: message }
       );
     }
@@ -48,7 +48,7 @@ async function aiCommand(sock, chatId, message) {
     console.error('[ai]', err?.message || err);
     await sock.sendMessage(
       chatId,
-      { text: '❌ An error occurred. Please try again later.' },
+      { text: 'حصل خطأ جرب تاني بعد شوية' },
       { quoted: message }
     );
   }

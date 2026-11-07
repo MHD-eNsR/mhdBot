@@ -1,273 +1,209 @@
 const settings = require('../settings');
 const fs = require('fs');
 const path = require('path');
+const { COMMANDS } = require('../lib/arabic');
+const buttons = require('../lib/buttons');
 
-async function helpCommand(sock, chatId, message) {
-    const helpMessage = `
-╔═══════════════════╗
-   *🤖 ${settings.botName || 'KnightBot-MD'}*  
-   Version: *${settings.version || '3.0.0'}*
-   by ${settings.botOwner || 'Mr Unique Hacker'}
-   YT : ${global.ytch}
-╚═══════════════════╝
+const NEWSLETTER_JID = '120363189338764144@newsletter';
+const NEWSLETTER_NAME = 'MHD dev';
 
-*Available Commands:*
+function formatUptime(sec) {
+    const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+    const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+    const s = String(Math.floor(sec % 60)).padStart(2, '0');
+    return `${h}:${m}:${s}`;
+}
 
-╔═══════════════════╗
-🌐 *General Commands*:
-║ ➤ .help or .menu
-║ ➤ .ping
-║ ➤ .alive
-║ ➤ .tts <text>
-║ ➤ .owner
-║ ➤ .joke
-║ ➤ .quote
-║ ➤ .fact
-║ ➤ .weather <city>
-║ ➤ .news
-║ ➤ .attp <text>
-║ ➤ .lyrics <song_title>
-║ ➤ .8ball <question>
-║ ➤ .groupinfo
-║ ➤ .staff or .admins 
-║ ➤ .vv
-║ ➤ .vv2
-║ ➤ .trt <text> <lang>
-║ ➤ .ss <link>
-║ ➤ .jid
-║ ➤ .url
-╚═══════════════════╝ 
+// الاقسام بنفس شكل قايمة البوت
+const SECTIONS = [
+    ['', 'الاوامر العامة', [
+        '.المنيو', '.بنج', '.شغال', '.انطق نص', '.المالك', '.نكتة', '.اقتباس', '.معلومة',
+        '.الطقس مدينة', '.اخبار', '.متحرك نص', '.كلمات اسم الاغنية', '.كورة سؤال',
+        '.الجروب', '.الادمنز', '.فتح', '.ترجم نص كود_اللغة', '.سكرين لينك', '.الايدي', '.رابط',
+    ]],
+    ['', 'ادارة الجروب', [
+        '.حظر', '.فكحظر', '.رقي', '.نزل', '.اسكت دقايق', '.اتكلم', '.امسح عدد', '.اطرد',
+        '.انذار', '.انذارات', '.منعلينك', '.منعسب', '.منعمنشن', '.منعبوت', '.نضف',
+        '.منشن', '.منشنالكل', '.منشنالاعضاء', '.منشنخفي', '.شات', '.لينكجديد',
+        '.ترحيب', '.وداع', '.وصفالجروب', '.اسمالجروب', '.صورةالجروب', '.حالةالجروب',
+    ]],
+    ['', 'صاحب البوت', [
+        '.الوضع عام او خاص', '.تنضيفالسيشن', '.منعمسح', '.تنضيفالمؤقت', '.تحديث', '.الاعدادات',
+        '.صورةالبوت', '.رداتلقائي', '.مشاهدةالحالات', '.حفظالحالات', '.كتابةتلقائية',
+        '.قراءةتلقائية', '.منعمكالمات', '.منعالخاص', '.ضبطالمنشن', '.منشنالبوت', '.مساعد',
+    ]],
+    ['', 'صور وملصقات', [
+        '.ملصق', '.لصورة', '.بلور', '.شيلالخلفية', '.حسنالصورة', '.قص', '.ملصقتليجرام لينك',
+        '.ميمز', '.خدملصق', '.دمجايموجي', '.انستاستوري لينك', '.انستاسكرين لينك',
+        '.صور البلد', '.صين', '.اندونيسيا', '.يابان', '.كوريا',
+    ]],
+    ['', 'العاب', [
+        '.اكسو @شخص', '.المشنقة', '.خمن حرف', '.سؤال', '.اجابة', '.صراحة', '.تحدي',
+    ]],
+    ['', 'ذكاء اصطناعي', [
+        '.ذكاء سؤال', '.جيبيتي سؤال', '.جيميني سؤال', '.تخيل وصف', '.فلاكس وصف', '.سورا وصف',
+    ]],
+    ['', 'تسلية', [
+        '.مجاملة @شخص', '.اهانة @شخص', '.غزل', '.شعر', '.تصبحعلىخير', '.وردة', '.شخصية @شخص',
+        '.ضايع @شخص', '.حب @شخص', '.سمب @شخص', '.غبي @شخص نص',
+    ]],
+    ['', 'كتابة بخطوط', [
+        '.معدن', '.تلج', '.ثلج', '.مبهر', '.ماتريكس', '.ضوء', '.نيون', '.شيطان', '.بنفسجي',
+        '.رعد', '.ورق', '.ارينا', '.هاكر', '.رمل', '.بلاكبينك', '.جليتش', '.نار',
+    ]],
+    ['', 'تحميل', [
+        '.شغل اسم الاغنية', '.اغنية اسم الاغنية', '.سبوتيفاي اسم الاغنية', '.انستجرام لينك',
+        '.فيسبوك لينك', '.تويتر لينك', '.تيكتوك لينك', '.فيديو اسم الفيديو',
+    ]],
+    ['', 'متنوعة', [
+        '.قلب', '.دايرة', '.قوسقزح', '.شرطة', '.كارتغبي', '.كارتاسم', '.حكيم', '.تويت',
+        '.كومنتيوتيوب', '.رفيق', '.زجاج', '.سجن', '.نجحت', '.غضب',
+    ]],
+    ['', 'انمي', [
+        '.ياكل', '.نكزة', '.عياط', '.بوسة', '.طبطبة', '.حضن', '.غمزة', '.ضربجبهة',
+    ]],
+    ['', 'القنوات والريبو', [
+        '.newsletter  جوه القناة بيطلع ايدي القناة',
+        '.newsletter لينك_القناة',
+        '.ريبو',
+    ]],
+];
 
-╔═══════════════════╗
-👮‍♂️ *Admin Commands*:
-║ ➤ .ban @user
-║ ➤ .promote @user
-║ ➤ .demote @user
-║ ➤ .mute <minutes>
-║ ➤ .unmute
-║ ➤ .delete or .del
-║ ➤ .kick @user
-║ ➤ .warnings @user
-║ ➤ .warn @user
-║ ➤ .antilink
-║ ➤ .antibadword
-║ ➤ .clear
-║ ➤ .tag <message>
-║ ➤ .tagall
-║ ➤ .tagnotadmin
-║ ➤ .hidetag <message>
-║ ➤ .chatbot
-║ ➤ .resetlink
-║ ➤ .antitag <on/off>
-║ ➤ .welcome <on/off>
-║ ➤ .goodbye <on/off>
-║ ➤ .antibot <on/off/set/get>
-║ ➤ .setgdesc <description>
-║ ➤ .setgname <new name>
-║ ➤ .setgpp (reply to image)
-║ ➤ .groupstatus [caption/text]
-╚═══════════════════╝
+function buildHeader(message) {
+    const total = Object.keys(COMMANDS).length;
+    const ts = Number(message?.messageTimestamp || 0) * 1000;
+    const speed = ts ? Math.max(0, Date.now() - ts) : 0;
+    const bar = '✠───•───〈✤〉───•───✠';
+    return [
+        bar,
+        `│┊المـدة 【${formatUptime(process.uptime())}】`,
+        `│┊السرعة 【${speed}ms】`,
+        `│┊الاصدار 【v${settings.version || '3.0.0'}】`,
+        `│┊اجمالي الاوامر 【${total}】`,
+        bar,
+        `╭╼ BY ${(settings.botName || 'mhdBot').toUpperCase()} ╾╮`,
+    ].join('\n');
+}
 
-╔═══════════════════╗
-🔒 *Owner Commands*:
-║ ➤ .mode <public/private>
-║ ➤ .clearsession
-║ ➤ .antidelete
-║ ➤ .cleartmp
-║ ➤ .update
-║ ➤ .settings
-║ ➤ .setpp <reply to image>
-║ ➤ .autoreact <on/off>
-║ ➤ .autostatus <on/off>
-║ ➤ .autostatus react <on/off>
-║ ➤ .savestatus [on/off]
-║ ➤ .autotyping <on/off>
-║ ➤ .autoread <on/off>
-║ ➤ .anticall <on/off>
-║ ➤ .pmblocker <on/off/status>
-║ ➤ .pmblocker setmsg <text>
-║ ➤ .setmention <reply to msg>
-║ ➤ .mention <on/off>
-╚═══════════════════╝
+function buildSections() {
+    const out = [];
+    out.push('┊قائمة البوت┊');
+    out.push(`┊ ${(settings.botName || 'mhdBot').toUpperCase()} MENU ┊`);
+    SECTIONS.forEach(([icon, title, cmds], i) => {
+        out.push('');
+        out.push(`┊قسم ${i + 1}┊${title}┊`);
+        out.push('╭───────────────╮');
+        for (const c of cmds) out.push(`│⌯ ${c}`);
+        out.push('╰───────────────╯');
+    });
+    out.push('');
+    out.push(`┊المطور ${settings.botOwner || 'MHD'}┊`);
+    out.push('https://github.com/MHD-eNsR/mhdBot');
+    return out.join('\n');
+}
 
-╔═══════════════════╗
-🎨 *Image/Sticker Commands*:
-║ ➤ .blur <image>
-║ ➤ .simage <reply to sticker>
-║ ➤ .sticker <reply to image>
-║ ➤ .removebg
-║ ➤ .remini
-║ ➤ .crop (reply sticker/image/video)
-║ ➤ .tgsticker <Link>
-║ ➤ .meme
-║ ➤ .take <packname> 
-║ ➤ .emojimix <emj1>+<emj2>
-║ ➤ .igs <insta link>
-║ ➤ .igsc <insta link>
-╚═══════════════════╝  
+const SECTION_DESCS = [
+    'اوامر عامة ومعلومات وخدمات سريعة',
+    'اوامر ادارة الجروب والاعضاء والحماية',
+    'اوامر التحكم الكاملة لصاحب البوت فقط',
+    'اوامر صور وملصقات وتصاميم',
+    'اوامر العاب تفاعلية وتسلية',
+    'اوامر الذكاء الاصطناعي اتكلم معاه واطلب اي حاجة',
+    'اوامر تسلية ومرح وردود',
+    'اوامر كتابة النصوص بخطوط مزخرفة',
+    'اوامر التحميل من السوشيال ميديا',
+    'اوامر متنوعة وادوات مفيدة',
+    'اوامر الانمي وصوره',
+    'قنوات البوت والريبو'
+];
 
-╔═══════════════════╗
-🖼️ *Pies Commands*:
-║ ➤ .pies <country>
-║ ➤ .china 
-║ ➤ .indonesia 
-║ ➤ .japan 
-║ ➤ .korea 
-║ ➤ .hijab
-╚═══════════════════╝
+const CHANNEL_URL = 'https://whatsapp.com/channel/0029VaG5esaK0IBimQcJ1R2J';
 
-╔═══════════════════╗
-🎮 *Game Commands*:
-║ ➤ .tictactoe @user
-║ ➤ .hangman
-║ ➤ .guess <letter>
-║ ➤ .trivia
-║ ➤ .answer <answer>
-║ ➤ .truth
-║ ➤ .dare
-╚═══════════════════╝
+const contextInfo = {
+    forwardingScore: 1,
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+        newsletterJid: NEWSLETTER_JID,
+        newsletterName: NEWSLETTER_NAME,
+        serverMessageId: -1
+    }
+};
 
-╔═══════════════════╗
-🤖 *AI Commands*:
-║ ➤ .ai <question>
-║ ➤ .gpt <question>
-║ ➤ .gemini <question>
-║ ➤ .imagine <prompt>
-║ ➤ .flux <prompt>
-║ ➤ .sora <prompt>
-╚═══════════════════╝
-
-╔═══════════════════╗
-🎯 *Fun Commands*:
-║ ➤ .compliment @user
-║ ➤ .insult @user
-║ ➤ .flirt 
-║ ➤ .shayari
-║ ➤ .goodnight
-║ ➤ .roseday
-║ ➤ .character @user
-║ ➤ .wasted @user
-║ ➤ .ship @user
-║ ➤ .simp @user
-║ ➤ .stupid @user [text]
-╚═══════════════════╝
-
-╔═══════════════════╗
-🔤 *Textmaker*:
-║ ➤ .metallic <text>
-║ ➤ .ice <text>
-║ ➤ .snow <text>
-║ ➤ .impressive <text>
-║ ➤ .matrix <text>
-║ ➤ .light <text>
-║ ➤ .neon <text>
-║ ➤ .devil <text>
-║ ➤ .purple <text>
-║ ➤ .thunder <text>
-║ ➤ .leaves <text>
-║ ➤ .1917 <text>
-║ ➤ .arena <text>
-║ ➤ .hacker <text>
-║ ➤ .sand <text>
-║ ➤ .blackpink <text>
-║ ➤ .glitch <text>
-║ ➤ .fire <text>
-╚═══════════════════╝
-
-╔═══════════════════╗
-📥 *Downloader*:
-║ ➤ .play <song_name>
-║ ➤ .song <song_name>
-║ ➤ .spotify <query>
-║ ➤ .instagram <link>
-║ ➤ .facebook <link>
-║ ➤ .twitter <link>
-║ ➤ .tiktok <link>
-║ ➤ .video <song name>
-║ ➤ .ytmp4 <Link>
-╚═══════════════════╝
-
-╔═══════════════════╗
-🧩 *MISC*:
-║ ➤ .heart
-║ ➤ .horny
-║ ➤ .circle
-║ ➤ .lgbt
-║ ➤ .lolice
-║ ➤ .its-so-stupid
-║ ➤ .namecard 
-║ ➤ .oogway
-║ ➤ .tweet
-║ ➤ .ytcomment 
-║ ➤ .comrade 
-║ ➤ .gay 
-║ ➤ .glass 
-║ ➤ .jail 
-║ ➤ .passed 
-║ ➤ .triggered
-╚═══════════════════╝
-
-╔═══════════════════╗
-🖼️ *ANIME*:
-║ ➤ .nom 
-║ ➤ .poke 
-║ ➤ .cry 
-║ ➤ .kiss 
-║ ➤ .pat 
-║ ➤ .hug 
-║ ➤ .wink 
-║ ➤ .facepalm 
-╚═══════════════════╝
-
-╔═══════════════════╗
-💻 *Github Commands:*
-║ ➤ .git
-║ ➤ .github
-║ ➤ .sc
-║ ➤ .script
-║ ➤ .repo
-╚═══════════════════╝
-
-Join our channel for updates:`;
-
+// المنيو النصي القديم (احتياطي لو الازرار مش شغالة)
+async function sendTextMenu(sock, chatId, message) {
+    const header = buildHeader(message);
+    const body = buildSections();
     try {
         const imagePath = path.join(__dirname, '../assets/bot_image.jpg');
-        
         if (fs.existsSync(imagePath)) {
-            const imageBuffer = fs.readFileSync(imagePath);
-            
             await sock.sendMessage(chatId, {
-                image: imageBuffer,
-                caption: helpMessage,
-                contextInfo: {
-                    forwardingScore: 1,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
-                        serverMessageId: -1
-                    }
-                }
-            },{ quoted: message });
+                image: fs.readFileSync(imagePath),
+                caption: header,
+                contextInfo,
+                __noclean: true
+            }, { quoted: message });
         } else {
-            console.error('Bot image not found at:', imagePath);
-            await sock.sendMessage(chatId, { 
-                text: helpMessage,
-                contextInfo: {
-                    forwardingScore: 1,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD by Mr Unique Hacker',
-                        serverMessageId: -1
-                    } 
-                }
-            });
+            await sock.sendMessage(chatId, { text: header, contextInfo, __noclean: true }, { quoted: message });
         }
+        await sock.sendMessage(chatId, { text: body, __noclean: true });
     } catch (error) {
         console.error('Error in help command:', error);
-        await sock.sendMessage(chatId, { text: helpMessage });
+        await sock.sendMessage(chatId, { text: header + '\n\n' + body, __noclean: true });
     }
 }
 
+// المنيو التفاعلي بالازرار
+async function helpCommand(sock, chatId, message) {
+    const botName = (settings.botName || 'mhdBot').toUpperCase();
+    const ownerNumber = String(settings.ownerNumber || '').replace(/\D/g, '');
+
+    const sections = [{
+        title: `┊ ${botName} MENU ┊`,
+        rows: SECTIONS.map(([, title], i) => ({
+            title: `قسم ${i + 1} ┊ 「${title}」`,
+            description: SECTION_DESCS[i] || '',
+            id: `.menusec ${i + 1}`
+        }))
+    }];
+
+    const ok = await buttons.sendInteractive(sock, chatId, {
+        title: botName,
+        text: buildHeader(message),
+        footer: `BY ${botName}`,
+        buttons: [
+            buttons.listButton('┊ قائمة البوت ┊', 'اقسام البوت', sections),
+            buttons.urlButton('قناة البوت', CHANNEL_URL),
+            buttons.urlButton('مطور البوت', `https://wa.me/${ownerNumber}`)
+        ]
+    });
+
+    if (!ok) await sendTextMenu(sock, chatId, message);
+}
+
+// اوامر قسم واحد (بتتناده لما حد يختار قسم من القايمة)
+async function helpSectionCommand(sock, chatId, message, num) {
+    const idx = parseInt(num, 10) - 1;
+    const sec = SECTIONS[idx];
+    if (!sec) {
+        await sock.sendMessage(chatId, { text: `اكتب رقم قسم من 1 لـ ${SECTIONS.length}\nمثال .قسم 1` }, { quoted: message });
+        return;
+    }
+    const [, title, cmds] = sec;
+    const botName = (settings.botName || 'mhdBot').toUpperCase();
+    const out = [
+        '✠───•───〈✤〉───•───✠',
+        `│┊قسم ${idx + 1}┊ 「${title}」`,
+        `│┊${SECTION_DESCS[idx] || ''}`,
+        '✠───•───〈✤〉───•───✠',
+        '╭╼ الاوامر ╾╮',
+        ...cmds.map((c) => `│⌯ ${c}`),
+        '╰───────────╯',
+        '',
+        `╭╼ BY ${botName} ╾╮`,
+        'للرجوع للقائمة اكتب .المنيو'
+    ].join('\n');
+    await sock.sendMessage(chatId, { text: out, __noclean: true }, { quoted: message });
+}
+
 module.exports = helpCommand;
+module.exports.helpSectionCommand = helpSectionCommand;

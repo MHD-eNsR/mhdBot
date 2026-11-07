@@ -83,7 +83,7 @@ function resolveMedia(msg) {
 }
 
 async function downloadMediaFallback(msgObj, type) {
-  const mediaMsg = msgObj[`${type}Message`] || msgObj.documentMessage || msgObj;
+  const mediaMsg = msgObj[`رسالة ${type}`] || msgObj.documentMessage || msgObj;
   const stream = await downloadContentFromMessage(
     mediaMsg,
     type === 'sticker' ? 'sticker' : type
@@ -181,15 +181,15 @@ async function groupstatusCommand(sock, chatId, message, senderId) {
 
   try {
     if (!chatId.endsWith('@g.us')) {
-      return reply('👥 This command can only be used in groups.');
+      return reply('الامر ده بيشتغل في الجروبات بس');
     }
 
     const adminStatus = await isAdmin(sock, chatId, senderId);
     if (!adminStatus.isBotAdmin) {
-      return reply('❌ Please make the bot an admin to post group status.');
+      return reply('خلي البوت ادمن عشان ينزل حالة في الجروب');
     }
     if (!message.key.fromMe && !adminStatus.isSenderAdmin) {
-      return reply('❌ Only group admins can use this command.');
+      return reply('الامر ده للادمنز بس');
     }
 
     const raw =
@@ -206,24 +206,24 @@ async function groupstatusCommand(sock, chatId, message, senderId) {
     if (!media) {
       if (!caption) {
         return reply(
-          '📝 *Group Status Usage*\n\n' +
-            '• Send an *image/video/audio* with caption:\n' +
-            '  `.groupstatus [optional caption]`\n' +
-            '• Or reply to image/video/audio/sticker with:\n' +
-            '  `.groupstatus [optional caption]`\n' +
-            '• Or text status only:\n' +
-            '  `.groupstatus Your text here`\n\n' +
-            'Text statuses use a purple background by default.'
+          'طريقة نشر حالة الجروب\n\n' +
+            '• ابعت صورة او فيديو او صوت مع كابشن\n' +
+            '  .حالةالجروب والكابشن لو عايز\n' +
+            '• او رد على صورة او فيديو او صوت او ملصق بالامر\n' +
+            '  .حالةالجروب والكابشن لو عايز\n' +
+            '• او حالة نصية بس\n' +
+            '  .حالةالجروب النص بتاعك هنا\n\n' +
+            'الحالات النصية خلفيتها بنفسجي بشكل افتراضي'
         );
       }
 
-      await reply('⏳ Posting text group status...');
+      await reply('بنزل الحالة النصية في الجروب');
       try {
         await groupStatus(sock, chatId, { text: caption, backgroundColor: PURPLE_COLOR });
-        return reply('✅ Text group status posted!');
+        return reply('الحالة النصية اتنزلت في الجروب');
       } catch (e) {
         console.error('[groupstatus] text:', e?.message || e);
-        return reply('❌ Failed to post text group status: ' + (e.message || e));
+        return reply('معرفتش انزل الحالة النصية في الجروب ' + (e.message || e));
       }
     }
 
@@ -248,36 +248,36 @@ async function groupstatusCommand(sock, chatId, message, senderId) {
         buf = await downloadMediaFallback(media.targetMessage.message, type);
       } catch (e2) {
         console.error('[groupstatus] download:', dlErr?.message || dlErr, e2?.message || e2);
-        return reply('❌ Failed to download media');
+        return reply('معرفتش احمل الميديا');
       }
     }
 
-    if (!buf?.length) return reply('❌ Could not download media');
+    if (!buf?.length) return reply('مقدرتش احمل الميديا');
 
     if (media.kind === 'image' || media.kind === 'sticker') {
-      await reply('⏳ Posting image group status...');
+      await reply('بنزل حالة الصورة في الجروب');
       try {
         await groupStatus(sock, chatId, { image: buf, caption: caption || '' });
-        return reply('✅ Image group status posted!');
+        return reply('حالة الصورة اتنزلت في الجروب');
       } catch (e) {
         console.error('[groupstatus] image:', e?.message || e);
-        return reply('❌ Failed to post image group status: ' + (e.message || e));
+        return reply('معرفتش انزل حالة الصورة في الجروب ' + (e.message || e));
       }
     }
 
     if (media.kind === 'video') {
-      await reply('⏳ Posting video group status...');
+      await reply('بنزل حالة الفيديو في الجروب');
       try {
         await groupStatus(sock, chatId, { video: buf, caption: caption || '' });
-        return reply('✅ Video group status posted!');
+        return reply('حالة الفيديو اتنزلت في الجروب');
       } catch (e) {
         console.error('[groupstatus] video:', e?.message || e);
-        return reply('❌ Failed to post video group status: ' + (e.message || e));
+        return reply('معرفتش انزل حالة الفيديو في الجروب ' + (e.message || e));
       }
     }
 
     if (media.kind === 'audio') {
-      await reply('⏳ Posting audio group status...');
+      await reply('بنزل حالة الصوت في الجروب');
       let vn;
       try {
         vn = await toVN(buf);
@@ -297,17 +297,17 @@ async function groupstatusCommand(sock, chatId, message, senderId) {
           ptt: true,
           waveform,
         });
-        return reply('✅ Audio group status posted!');
+        return reply('حالة الصوت اتنزلت في الجروب');
       } catch (e) {
         console.error('[groupstatus] audio:', e?.message || e);
-        return reply('❌ Failed to post audio group status: ' + (e.message || e));
+        return reply('معرفتش انزل حالة الصوت في الجروب ' + (e.message || e));
       }
     }
 
-    return reply('❌ Unsupported media type. Send or reply to an image, video, or audio.');
+    return reply('نوع الميديا مش مدعوم ابعت او رد على صورة او فيديو او صوت');
   } catch (e) {
     console.error('[groupstatus]', e?.message || e);
-    return reply('❌ Error: ' + (e.message || e));
+    return reply('حصل خطأ ' + (e.message || e));
   }
 }
 

@@ -6,19 +6,19 @@ const path = require('path');
 
 async function githubCommand(sock, chatId, message) {
   try {
-    const res = await fetch('https://api.github.com/repos/mruniquehacker/Knightbot-md');
+    const res = await fetch('https://api.github.com/repos/MHD-eNsR/mhdBot');
     if (!res.ok) throw new Error('Error fetching repository data');
     const json = await res.json();
 
-    let txt = `*乂  Knight Bot MD  乂*\n\n`;
-    txt += `✩  *Name* : ${json.name}\n`;
-    txt += `✩  *Watchers* : ${json.watchers_count}\n`;
-    txt += `✩  *Size* : ${(json.size / 1024).toFixed(2)} MB\n`;
-    txt += `✩  *Last Updated* : ${moment(json.updated_at).format('DD/MM/YY - HH:mm:ss')}\n`;
-    txt += `✩  *URL* : ${json.html_url}\n`;
-    txt += `✩  *Forks* : ${json.forks_count}\n`;
-    txt += `✩  *Stars* : ${json.stargazers_count}\n\n`;
-    txt += `💥 *KnightBot MD*`;
+    let txt = `mhdBot\n\n`;
+    txt += `الاسم ${json.name}\n`;
+    txt += `المتابعين ${json.watchers_count}\n`;
+    txt += `الحجم ${(json.size / 1024).toFixed(2)} ميجا\n`;
+    txt += `اخر تحديث ${moment(json.updated_at).format('DD/MM/YY - HH:mm:ss')}\n`;
+    txt += `الرابط ${json.html_url}\n`;
+    txt += `النسخ ${json.forks_count}\n`;
+    txt += `النجوم ${json.stargazers_count}\n\n`;
+    txt += `mhdBot`;
 
     // Use the local asset image
     const imgPath = path.join(__dirname, '../assets/bot_image.jpg');
@@ -26,7 +26,7 @@ async function githubCommand(sock, chatId, message) {
 
     await sock.sendMessage(chatId, { image: imgBuffer, caption: txt }, { quoted: message });
   } catch (error) {
-    await sock.sendMessage(chatId, { text: '❌ Error fetching repository information.' }, { quoted: message });
+    await sock.sendMessage(chatId, { text: 'حصل خطأ وانا بجيب معلومات الريبو' }, { quoted: message });
   }
 }
 

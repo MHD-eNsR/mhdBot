@@ -10,13 +10,13 @@ async function memeCommand(sock, chatId, message) {
             const imageBuffer = await response.buffer();
             
             const buttons = [
-                { buttonId: '.meme', buttonText: { displayText: '🎭 Another Meme' }, type: 1 },
-                { buttonId: '.joke', buttonText: { displayText: '😄 Joke' }, type: 1 }
+                { buttonId: '.meme', buttonText: { displayText: 'ميم تاني' }, type: 1 },
+                { buttonId: '.joke', buttonText: { displayText: 'نكتة' }, type: 1 }
             ];
 
             await sock.sendMessage(chatId, { 
                 image: imageBuffer,
-                caption: "> Here's your cheems meme! 🐕",
+                caption: "اتفضل الميم بتاعك",
                 buttons: buttons,
                 headerType: 1
             },{ quoted: message});
@@ -26,7 +26,7 @@ async function memeCommand(sock, chatId, message) {
     } catch (error) {
         console.error('Error in meme command:', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Failed to fetch meme. Please try again later.'
+            text: 'معرفتش اجيب الميم جرب تاني بعد شوية'
         },{ quoted: message });
     }
 }

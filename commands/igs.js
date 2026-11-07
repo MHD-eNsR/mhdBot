@@ -89,7 +89,7 @@ async function convertBufferToStickerWebp(inputBuffer, isAnimated, cropSquare) {
 
     const json = {
         'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-        'sticker-pack-name': settings.packname || 'KnightBot',
+        'sticker-pack-name': settings.packname || 'mhdBot',
         'emojis': ['📸']
     };
     const exifAttr = Buffer.from([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00]);
@@ -117,7 +117,7 @@ async function convertBufferToStickerWebp(inputBuffer, isAnimated, cropSquare) {
                 await img2.load(smallWebp);
                 const json2 = {
                     'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-                    'sticker-pack-name': settings.packname || 'KnightBot',
+                    'sticker-pack-name': settings.packname || 'mhdBot',
                     'emojis': ['📸']
                 };
                 const exifAttr2 = Buffer.from([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00]);
@@ -189,7 +189,7 @@ async function igsCommand(sock, chatId, message, crop = false) {
         const text = message.message?.conversation || message.message?.extendedTextMessage?.text || '';
         const urlMatch = text.match(/https?:\/\/\S+/);
         if (!urlMatch) {
-            await sock.sendMessage(chatId, { text: `Send an Instagram post/reel link.\nUsage:\n.igs <url>\n.igsc <url>` }, { quoted: message });
+            await sock.sendMessage(chatId, { text: `ابعت لينك بوست او ريل من انستجرام\nطريقة الاستخدام\n.انستاستوري لينك\n.انستاسكرين لينك` }, { quoted: message });
             return;
         }
 
@@ -197,7 +197,7 @@ async function igsCommand(sock, chatId, message, crop = false) {
 
         const downloadData = await igdl(urlMatch[0]).catch(() => null);
         if (!downloadData || !downloadData.data) {
-            await sock.sendMessage(chatId, { text: '❌ Failed to fetch media from Instagram link.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: 'معرفتش احمل الميديا من لينك انستجرام' }, { quoted: message });
             return;
         }
         // Raw items
@@ -212,7 +212,7 @@ async function igsCommand(sock, chatId, message, crop = false) {
             }
         }
         if (items.length === 0) {
-            await sock.sendMessage(chatId, { text: '❌ No media found at the provided link.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: 'مفيش ميديا في اللينك ده' }, { quoted: message });
             return;
         }
 
@@ -265,7 +265,7 @@ async function igsCommand(sock, chatId, message, crop = false) {
 
     } catch (err) {
         console.error('Error in igs command:', err);
-        await sock.sendMessage(chatId, { text: 'Failed to create sticker from Instagram link.' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'معرفتش اعمل ملصق من لينك انستجرام' }, { quoted: message });
     }
 }
 
@@ -299,7 +299,7 @@ async function forceMiniSticker(inputBuffer, isVideo, cropSquare) {
     await img.load(smallWebp);
     const json = {
         'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-        'sticker-pack-name': settings.packname || 'KnightBot',
+        'sticker-pack-name': settings.packname || 'mhdBot',
         'emojis': ['📸']
     };
     const exifAttr = Buffer.from([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00]);

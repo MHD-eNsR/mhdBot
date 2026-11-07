@@ -10,8 +10,8 @@ async function shayariCommand(sock, chatId, message) {
         }
 
         const buttons = [
-            { buttonId: '.shayari', buttonText: { displayText: 'Shayari 🪄' }, type: 1 },
-            { buttonId: '.roseday', buttonText: { displayText: '🌹 RoseDay' }, type: 1 }
+            { buttonId: '.shayari', buttonText: { displayText: 'شعر' }, type: 1 },
+            { buttonId: '.roseday', buttonText: { displayText: 'وردة' }, type: 1 }
         ];
 
         await sock.sendMessage(chatId, { 
@@ -22,7 +22,7 @@ async function shayariCommand(sock, chatId, message) {
     } catch (error) {
         console.error('Error in shayari command:', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Failed to fetch shayari. Please try again later.',
+            text: 'معرفتش اجيب الشعر جرب تاني بعد شوية',
         }, { quoted: message });
     }
 }

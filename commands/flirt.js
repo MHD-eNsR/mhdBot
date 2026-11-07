@@ -1,3 +1,4 @@
+const { toArabic } = require('../lib/toArabic');
 const fetch = require('node-fetch');
 
 async function flirtCommand(sock, chatId, message) {
@@ -10,13 +11,13 @@ async function flirtCommand(sock, chatId, message) {
         }
         
         const json = await res.json();
-        const flirtMessage = json.result;
+        const flirtMessage = await toArabic(json.result);
 
         // Send the flirt message
         await sock.sendMessage(chatId, { text: flirtMessage }, { quoted: message });
     } catch (error) {
         console.error('Error in flirt command:', error);
-        await sock.sendMessage(chatId, { text: '❌ Failed to get flirt message. Please try again later!' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'معرفتش اجيب رسالة غزل جرب تاني بعد شوية' }, { quoted: message });
     }
 }
 

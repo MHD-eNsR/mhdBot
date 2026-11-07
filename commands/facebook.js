@@ -39,7 +39,7 @@ async function hanggtsFacebookDownload(url) {
   if (!download || !/^https?:\/\//i.test(download)) throw new Error('Hanggts returned no video');
 
   return {
-    title: data?.result?.info?.title || data?.result?.title || data?.title || 'Facebook Video',
+    title: data?.result?.info?.title || data?.result?.title || data?.title || 'فيديو فيسبوك',
     download,
   };
 }
@@ -54,8 +54,8 @@ async function resolveFacebook(url) {
 }
 
 async function sendVideo(sock, chatId, message, videoUrl, title) {
-  const bot = (settings.botName || 'Knight Bot').toUpperCase();
-  const caption = title ? `*DOWNLOADED BY ${bot}*\n\n📝 ${title}` : `*DOWNLOADED BY ${bot}*`;
+  const bot = (settings.botName || 'mhdBot').toUpperCase();
+  const caption = title ? `تم التحميل بواسطة ${bot}\n\n${title}` : `تم التحميل بواسطة ${bot}`;
 
   try {
     await sock.sendMessage(
@@ -95,14 +95,14 @@ async function facebookCommand(sock, chatId, message) {
     if (!url) {
       return sock.sendMessage(
         chatId,
-        { text: 'Please provide a Facebook link.\nExample: `.fb https://facebook.com/reel/...`' },
+        { text: 'ابعت لينك فيسبوك\nمثال\n.فيسبوك https://facebook.com/reel/...' },
         { quoted: message }
       );
     }
     if (!FB_PATTERNS.some((p) => p.test(url))) {
       return sock.sendMessage(
         chatId,
-        { text: 'That is not a valid Facebook link.' },
+        { text: 'ده مش لينك فيسبوك صح' },
         { quoted: message }
       );
     }
@@ -119,7 +119,7 @@ async function facebookCommand(sock, chatId, message) {
     console.error('[facebook]', err?.message || err);
     await sock.sendMessage(
       chatId,
-      { text: '❌ Failed to download Facebook video. Try another link.' },
+      { text: 'معرفتش احمل فيديو فيسبوك جرب لينك تاني' },
       { quoted: message }
     );
   }

@@ -26,7 +26,7 @@ async function handleTranslateCommand(sock, chatId, message, match) {
             const args = match.trim().split(' ');
             if (args.length < 2) {
                 return sock.sendMessage(chatId, {
-                    text: `*TRANSLATOR*\n\nUsage:\n1. Reply to a message with: .translate <lang> or .trt <lang>\n2. Or type: .translate <text> <lang> or .trt <text> <lang>\n\nExample:\n.translate hello fr\n.trt hello fr\n\nLanguage codes:\nfr - French\nes - Spanish\nde - German\nit - Italian\npt - Portuguese\nru - Russian\nja - Japanese\nko - Korean\nzh - Chinese\nar - Arabic\nhi - Hindi`,
+                    text: `المترجم\n\nطريقة الاستخدام\n1 رد على رسالة بالامر .ترجم وبعده كود اللغة\n2 او اكتب .ترجم النص وبعده كود اللغة\n\nمثال\n.ترجم hello ar\n\nاكواد اللغات\nfr فرنسي\nes اسباني\nde الماني\nit ايطالي\npt برتغالي\nru روسي\nja ياباني\nko كوري\nzh صيني\nar عربي\nhi هندي`,
                     quoted: message
                 });
             }
@@ -37,7 +37,7 @@ async function handleTranslateCommand(sock, chatId, message, match) {
 
         if (!textToTranslate) {
             return sock.sendMessage(chatId, {
-                text: '❌ No text found to translate. Please provide text or reply to a message.',
+                text: 'مفيش نص اترجمه اكتب نص او رد على رسالة',
                 quoted: message
             });
         }
@@ -103,7 +103,7 @@ async function handleTranslateCommand(sock, chatId, message, match) {
     } catch (error) {
         console.error('❌ Error in translate command:', error);
         await sock.sendMessage(chatId, {
-            text: '❌ Failed to translate text. Please try again later.\n\nUsage:\n1. Reply to a message with: .translate <lang> or .trt <lang>\n2. Or type: .translate <text> <lang> or .trt <text> <lang>',
+            text: 'معرفتش اترجم النص جرب تاني بعد شوية\n\nطريقة الاستخدام\n1 رد على رسالة بالامر .ترجم وبعده كود اللغة\n2 او اكتب .ترجم النص وبعده كود اللغة',
             quoted: message
         });
     }

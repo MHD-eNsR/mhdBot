@@ -12,7 +12,7 @@ async function spotifyCommand(sock, chatId, message) {
         const query = rawText.slice(used.length).trim();
 
         if (!query) {
-            await sock.sendMessage(chatId, { text: 'Usage: .spotify <song/artist/keywords>\nExample: .spotify con calma' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: 'طريقة الاستخدام .سبوتيفاي اسم اغنية او مطرب\nمثال .سبوتيفاي تملي معاك' }, { quoted: message });
             return;
         }
 
@@ -26,11 +26,11 @@ async function spotifyCommand(sock, chatId, message) {
         const r = data.result;
         const audioUrl = r.audio;
         if (!audioUrl) {
-            await sock.sendMessage(chatId, { text: 'No downloadable audio found for this query.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: 'مفيش صوت متاح للتحميل للبحث ده' }, { quoted: message });
             return;
         }
 
-        const caption = `🎵 ${r.title || r.name || 'Unknown Title'}\n👤 ${r.artist || ''}\n⏱ ${r.duration || ''}\n🔗 ${r.url || ''}`.trim();
+        const caption = `${r.title || r.name || 'عنوان مش معروف'}\nالفنان ${r.artist || ''}\nالمدة ${r.duration || ''}\nالرابط ${r.url || ''}`.trim();
 
          // Send cover and info as a follow-up (optional)
          if (r.thumbnails) {
@@ -48,7 +48,7 @@ async function spotifyCommand(sock, chatId, message) {
 
     } catch (error) {
         console.error('[SPOTIFY] error:', error?.message || error);
-        await sock.sendMessage(chatId, { text: 'Failed to fetch Spotify audio. Try another query later.' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: 'معرفتش اجيب الصوت من سبوتيفاي جرب بحث تاني بعد شوية' }, { quoted: message });
     }
 }
 

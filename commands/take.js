@@ -9,12 +9,12 @@ async function takeCommand(sock, chatId, message, args) {
         // Check if message is a reply to a sticker
         const quotedMessage = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
         if (!quotedMessage?.stickerMessage) {
-            await sock.sendMessage(chatId, { text: '❌ Reply to a sticker with .take <packname>' });
+            await sock.sendMessage(chatId, { text: 'رد على ملصق بالامر .خدملصق واسم الباكيدج' });
             return;
         }
 
         // Get the packname from args or use default
-        const packname = args.join(' ') || 'Knight Bot';
+        const packname = args.join(' ') || 'mhdBot';
 
         try {
             // Download the sticker
@@ -33,7 +33,7 @@ async function takeCommand(sock, chatId, message, args) {
             );
 
             if (!stickerBuffer) {
-                await sock.sendMessage(chatId, { text: '❌ Failed to download sticker' });
+                await sock.sendMessage(chatId, { text: 'معرفتش احمل الملصق' });
                 return;
             }
 
@@ -69,12 +69,12 @@ async function takeCommand(sock, chatId, message, args) {
 
         } catch (error) {
             console.error('Sticker processing error:', error);
-            await sock.sendMessage(chatId, { text: '❌ Error processing sticker' });
+            await sock.sendMessage(chatId, { text: 'حصل خطأ وانا بعالج الملصق' });
         }
 
     } catch (error) {
         console.error('Error in take command:', error);
-        await sock.sendMessage(chatId, { text: '❌ Error processing command' });
+        await sock.sendMessage(chatId, { text: 'حصل خطأ في تنفيذ الامر' });
     }
 }
 

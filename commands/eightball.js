@@ -1,22 +1,22 @@
 const eightBallResponses = [
-    "Yes, definitely!",
-    "No way!",
-    "Ask again later.",
-    "It is certain.",
-    "Very doubtful.",
-    "Without a doubt.",
-    "My reply is no.",
-    "Signs point to yes."
+    "ايوه اكيد",
+    "مستحيل",
+    "اسأل تاني بعدين",
+    "اكيد طبعا",
+    "احتمال ضعيف جدا",
+    "من غير شك",
+    "ردي لأ",
+    "الاشارات بتقول ايوه"
 ];
 
 async function eightBallCommand(sock, chatId, question) {
     if (!question) {
-        await sock.sendMessage(chatId, { text: 'Please ask a question!' });
+        await sock.sendMessage(chatId, { text: 'اكتب سؤالك' });
         return;
     }
 
     const randomResponse = eightBallResponses[Math.floor(Math.random() * eightBallResponses.length)];
-    await sock.sendMessage(chatId, { text: `🎱 ${randomResponse}` });
+    await sock.sendMessage(chatId, { text: `${randomResponse}` });
 }
 
 module.exports = { eightBallCommand };

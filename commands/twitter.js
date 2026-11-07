@@ -10,9 +10,9 @@ const TWITTER_PATTERNS = [
 ];
 
 function caption(quality) {
-  const bot = (settings.botName || 'Knight Bot').toUpperCase();
-  let text = `*DOWNLOADED BY ${bot}*`;
-  if (quality) text += `\n\n📹 Quality: ${quality}`;
+  const bot = (settings.botName || 'mhdBot').toUpperCase();
+  let text = `تم التحميل بواسطة ${bot}`;
+  if (quality) text += `\n\nالجودة ${quality}`;
   return text;
 }
 
@@ -119,14 +119,14 @@ async function twitterCommand(sock, chatId, message) {
     if (!url) {
       return sock.sendMessage(
         chatId,
-        { text: 'Please provide a Twitter / X link.\nUsage: `.twitter <url>`' },
+        { text: 'ابعت لينك تويتر او اكس\nطريقة الاستخدام .تويتر لينك' },
         { quoted: message }
       );
     }
     if (!TWITTER_PATTERNS.some((p) => p.test(url))) {
       return sock.sendMessage(
         chatId,
-        { text: '❌ Invalid link. Use an `x.com` or `twitter.com` post URL.' },
+        { text: 'اللينك غلط استخدم لينك بوست من x.com او twitter.com' },
         { quoted: message }
       );
     }
@@ -151,14 +151,14 @@ async function twitterCommand(sock, chatId, message) {
 
     await sock.sendMessage(
       chatId,
-      { text: '❌ No downloadable media found for this post.' },
+      { text: 'مفيش ميديا متاحة للتحميل في البوست ده' },
       { quoted: message }
     );
   } catch (err) {
     console.error('[twitter]', err?.message || err);
     await sock.sendMessage(
       chatId,
-      { text: '❌ Failed to download from Twitter / X. Try another link.' },
+      { text: 'معرفتش احمل من تويتر جرب لينك تاني' },
       { quoted: message }
     );
   }

@@ -20,7 +20,7 @@ async function vv2Command(sock, chatId, message, senderId) {
       message.message?.listResponseMessage?.contextInfo;
 
     if (!ctx?.quotedMessage) {
-      return fail('🗑️ Reply to a *view-once* message.\nIt will be sent to your DM.');
+      return fail('رد على رسالة بتتشاف مرة واحدة\nهتتبعتلك في الخاص');
     }
 
     const quotedMsg = ctx.quotedMessage;
@@ -34,7 +34,7 @@ async function vv2Command(sock, chatId, message, senderId) {
       !!quotedMsg?.audioMessage?.viewOnce;
 
     if (!hasViewOnce) {
-      return fail('❌ This is not a view-once message!');
+      return fail('دي مش رسالة بتتشاف مرة واحدة');
     }
 
     let actualMsg = null;
@@ -61,12 +61,12 @@ async function vv2Command(sock, chatId, message, senderId) {
     }
 
     if (!actualMsg || !mtype) {
-      return fail('❌ Unsupported view-once message type.');
+      return fail('نوع الرسالة دي مش مدعوم');
     }
 
     const dest = dmJid(message, senderId);
     if (!dest || dest.endsWith('@g.us') || dest.endsWith('@broadcast')) {
-      return fail('❌ Could not find your DM.');
+      return fail('معرفتش القي الخاص بتاعك');
     }
 
     const downloadType =
@@ -88,11 +88,11 @@ async function vv2Command(sock, chatId, message, senderId) {
     await sock.sendMessage(dest, payload);
 
     if (dest !== chatId) {
-      await sock.sendMessage(chatId, { text: '✅ Sent to your DM.' }, { quoted: message });
+      await sock.sendMessage(chatId, { text: 'اتبعتت في الخاص بتاعك' }, { quoted: message });
     }
   } catch (error) {
     console.error('[vv2]', error?.message || error);
-    await fail('❌ Error processing view-once message: ' + (error.message || 'Unknown error'));
+    await fail('حصل خطأ وانا بعالج الرسالة ' + (error.message || 'خطأ مش معروف'));
   }
 }
 
