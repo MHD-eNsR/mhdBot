@@ -199,7 +199,7 @@ async function groupstatusCommand(sock, chatId, message, senderId) {
       message.message?.videoMessage?.caption ||
       '';
     const caption = raw
-      .replace(/^\.(?:groupstatus|togstatus|swgc|gstatus|gs)\s*/i, '')
+      .replace(/^\.\S+\s*/, '')
       .trim();
     const media = resolveMedia(message);
 

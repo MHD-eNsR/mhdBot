@@ -8,7 +8,7 @@ async function imagineCommand(sock, chatId, message) {
                       message.message?.extendedTextMessage?.text?.trim() || '';
         
         // Remove the command prefix and trim
-        const imagePrompt = prompt.slice(8).trim();
+        const imagePrompt = prompt.trim().split(/\s+/).slice(1).join(' ').trim();
         
         if (!imagePrompt) {
             await sock.sendMessage(chatId, {

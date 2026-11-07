@@ -47,7 +47,7 @@ async function videoCommand(sock, chatId, message) {
   try {
     const text =
       message.message?.conversation || message.message?.extendedTextMessage?.text || '';
-    const query = text.replace(/^\.(?:video|ytmp4|ytv|ytvid)\s*/i, '').trim();
+    const query = text.replace(/^\.\S+\s*/, '').trim();
 
     if (!query) {
       return sock.sendMessage(

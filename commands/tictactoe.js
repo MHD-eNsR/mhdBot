@@ -88,7 +88,7 @@ async function handleTicTacToeMove(sock, chatId, senderId, text) {
 
         if (!room) return;
 
-        const isSurrender = /^(surrender|give up)$/i.test(text);
+        const isSurrender = /^(surrender|give up|استسلام)$/i.test(text);
         
         if (!isSurrender && !/^[1-9]$/.test(text)) return;
 

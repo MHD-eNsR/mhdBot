@@ -1,4 +1,4 @@
-// امر .newsletter
+// امر .قناة
 // جوه القناة بيطلع الايدي بتاعها
 // وبرة القناة لو بعتله لينك قناة بيطلع الايدي بتاعها برضو
 
@@ -27,7 +27,7 @@ async function newsletterCommand(sock, chatId, message, rawText = '') {
             jid = meta && meta.id;
         } else {
             await sock.sendMessage(chatId, {
-                text: 'اكتب الامر جوه القناة بتاعتك عشان اجيبلك الايدي بتاعها\nاو ابعت الامر وبعده لينك القناة\nمثال\n.newsletter https://whatsapp.com/channel/xxxxxxxx'
+                text: 'اكتب الامر جوه القناة بتاعتك عشان اجيبلك الايدي بتاعها\nاو ابعت الامر وبعده لينك القناة\nمثال\n.قناة https://whatsapp.com/channel/xxxxxxxx'
             }, sendOpts);
             return;
         }
