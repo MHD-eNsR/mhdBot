@@ -1,11 +1,12 @@
 // لعبة المارد الأزرق: المارد بيخمن الشخصية اللي في بالك بأسئلة وانت بتجاوب بالأزرار
-// اللعبة محلية بالكامل (بتشتغل من غير نت) والشخصيات والأسئلة في data/genie.json
+// اللعبة محلية بالكامل (بتشتغل من غير نت) والشخصيات والأسئلة في assets/genie.json
 
 const fs = require('fs');
 const path = require('path');
 const buttons = require('../lib/buttons');
 
-const DATA_FILE = path.join(__dirname, '../data/genie.json');
+// الملف في assets (مش data) عشان امر .تحديث بيتخطى مجلد data كله
+const DATA_FILE = path.join(__dirname, '../assets/genie.json');
 const SESSION_TTL = 10 * 60 * 1000;
 const MAX_QUESTIONS = 16;
 
@@ -173,7 +174,7 @@ async function step(sock, chatId, session) {
     if (next.type === 'guess') return sendGuess(sock, chatId, session, next.idx, next.prob);
     sessions.delete(chatId);
     await sock.sendMessage(chatId, {
-        text: `${TITLE}\n\n🧞 غلبتني المرة دي! الشخصية دي مش عندي 😅\n_تقدر تزود شخصيات في ملف data/genie.json_`,
+        text: `${TITLE}\n\n🧞 غلبتني المرة دي! الشخصية دي مش عندي 😅\n_تقدر تزود شخصيات في ملف assets/genie.json_`,
         __noframe: true,
     });
 }
