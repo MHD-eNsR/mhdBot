@@ -1,4 +1,18 @@
 const TicTacToe = require('../lib/tictactoe');
+const { BAR, footer } = require('../lib/style');
+
+// رموز اللعبة: X = ❌ و O = ⭕ والارقام ايموجي
+const SYMBOLS = { X: '❌', O: '⭕', 1: '1️⃣', 2: '2️⃣', 3: '3️⃣', 4: '4️⃣', 5: '5️⃣', 6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣' };
+const LRM = '\u200E'; // علامة اتجاه عشان الصف يتعرض 1 2 3 مش 3 2 1
+
+function boardText(arr) {
+    return [arr.slice(0, 3), arr.slice(3, 6), arr.slice(6)].map((row) => LRM + row.join(' ')).join('\n');
+}
+
+function gameCard(title, lines) {
+    return [BAR, `│🎮┊ *${title}*`, BAR, ...lines, BAR, footer()].join('\n');
+}
+
 
 // Store games globally
 const games = {};
@@ -28,21 +42,19 @@ async function tictactoeCommand(sock, chatId, senderId, text) {
             room.game.playerO = senderId;
             room.state = 'PLAYING';
 
-            const arr = room.game.render().map(v => ({
-                'X': 'X',
-                'O': 'O',
-                '1': '1',
-                '2': '2',
-                '3': '3',
-                '4': '4',
-                '5': '5',
-                '6': '6',
-                '7': '7',
-                '8': '8',
-                '9': '9',
-            }[v]));
+            const arr = room.game.render().map(v => SYMBOLS[v]);
 
-            const str = `\nلعبة اكس او بدأت\n\nمستني @${room.game.currentTurn.split('@')[0]} يلعب\n\n${arr.slice(0, 3).join(' ')}\n${arr.slice(3, 6).join(' ')}\n${arr.slice(6).join(' ')}\n\nرقم الغرفة ${room.id}\nالقواعد\n• كون 3 رموز ورا بعض افقي او رأسي او قطري عشان تكسب\n• اكتب رقم من 1 لـ 9 عشان تحط رمزك\n• اكتب استسلام لو عايز تستسلم\n`;
+            const str = gameCard('لعبة اكس او بدأت', [
+                `⏳ مستني @${room.game.currentTurn.split('@')[0]} يلعب`,
+                '',
+                boardText(arr),
+                '',
+                `🔢 رقم الغرفة ${room.id}`,
+                '📜 *القواعد*',
+                '• كون 3 رموز ورا بعض افقي او رأسي او قطري عشان تكسب',
+                '• اكتب رقم من 1 لـ 9 عشان تحط رمزك',
+                '• اكتب استسلام لو عايز تستسلم'
+            ]);
 
             // Send message only once to the group
             await sock.sendMessage(chatId, { 
@@ -115,19 +127,7 @@ async function handleTicTacToeMove(sock, chatId, senderId, text) {
         let winner = room.game.winner;
         let isTie = room.game.turns === 9;
 
-        const arr = room.game.render().map(v => ({
-            'X': 'X',
-            'O': 'O',
-            '1': '1',
-            '2': '2',
-            '3': '3',
-            '4': '4',
-            '5': '5',
-            '6': '6',
-            '7': '7',
-            '8': '8',
-            '9': '9',
-        }[v]));
+        const arr = room.game.render().map(v => SYMBOLS[v]);
 
         if (isSurrender) {
             // Set the winner to the opponent of the surrendering player
@@ -146,14 +146,22 @@ async function handleTicTacToeMove(sock, chatId, senderId, text) {
 
         let gameStatus;
         if (winner) {
-            gameStatus = `@${winner.split('@')[0]} كسب اللعبة`;
+            gameStatus = `🏆 @${winner.split('@')[0]} كسب اللعبة`;
         } else if (isTie) {
-            gameStatus = `اللعبة خلصت بتعادل`;
+            gameStatus = `🤝 اللعبة خلصت بتعادل`;
         } else {
-            gameStatus = `الدور على @${room.game.currentTurn.split('@')[0]} ${senderId === room.game.playerX ? 'X' : 'O'}`;
+            gameStatus = `⏳ الدور على @${room.game.currentTurn.split('@')[0]} ${senderId === room.game.playerX ? '⭕' : '❌'}`;
         }
 
-        const str = `\nلعبة اكس او\n\n${gameStatus}\n\n${arr.slice(0, 3).join(' ')}\n${arr.slice(3, 6).join(' ')}\n${arr.slice(6).join(' ')}\n\nاللاعب X @${room.game.playerX.split('@')[0]}\nاللاعب O @${room.game.playerO.split('@')[0]}\n\n${!winner && !isTie ? '• اكتب رقم من 1 لـ 9 عشان تلعب\n• اكتب استسلام عشان تستسلم' : ''}\n`;
+        const str = gameCard('لعبة اكس او', [
+            gameStatus,
+            '',
+            boardText(arr),
+            '',
+            `❌ اللاعب @${room.game.playerX.split('@')[0]}`,
+            `⭕ اللاعب @${room.game.playerO.split('@')[0]}`,
+            ...(!winner && !isTie ? ['', '• اكتب رقم من 1 لـ 9 عشان تلعب', '• اكتب استسلام عشان تستسلم'] : [])
+        ]);
 
         const mentions = [
             room.game.playerX, 
