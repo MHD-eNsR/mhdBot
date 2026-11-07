@@ -21,18 +21,19 @@ function formatTime(seconds) {
 async function pingCommand(sock, chatId, message) {
     try {
         const start = Date.now();
-        await sock.sendMessage(chatId, { text: 'بونج' }, { quoted: message });
+        const sent = await sock.sendMessage(chatId, { text: '🏓 *بونج*', __raw: true }, { quoted: message });
         const end = Date.now();
         const ping = Math.round((end - start) / 2);
+        const uptimeFormatted = formatTime(process.uptime());
 
-        const uptimeInSeconds = process.uptime();
-        const uptimeFormatted = formatTime(uptimeInSeconds);
+        const botInfo = [
+            `🏓 *بنج:* \`${ping}ms\``,
+            `⏱️ *مدة التشغيل:* _${uptimeFormatted}_`,
+            `⚙️ *الاصدار:* \`v${settings.version}\``,
+            `👑 *المطور:* ${settings.botOwner || 'MHD'}`
+        ].join('\n');
 
-        const botInfo = `\nبنج ${ping} ملي ثانية\nمدة التشغيل ${uptimeFormatted}\nالاصدار ${settings.version}\n`.trim();
-
-        // Reply to the original message with the bot info
-        await sock.sendMessage(chatId, { text: botInfo},{ quoted: message });
-
+        await sock.sendMessage(chatId, { text: botInfo, __raw: true }, { quoted: message });
     } catch (error) {
         console.error('Error in ping command:', error);
         await sock.sendMessage(chatId, { text: 'معرفتش اجيب حالة البوت' });

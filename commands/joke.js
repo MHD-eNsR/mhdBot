@@ -52,7 +52,7 @@ module.exports = async function (sock, chatId, message) {
             i = Math.floor(Math.random() * JOKES.length);
         } while (JOKES.length > 1 && i === lastIndex);
         lastIndex = i;
-        await sock.sendMessage(chatId, { text: JOKES[i] }, message ? { quoted: message } : undefined);
+        await sock.sendMessage(chatId, { text: `😂 *نكتة*\n\n${JOKES[i].split('\n').map((l) => `_${l}_`).join('\n')}`, __raw: true }, message ? { quoted: message } : undefined);
     } catch (error) {
         console.error('Error sending joke:', error);
         await sock.sendMessage(chatId, { text: 'معرفتش اجيب نكتة دلوقتي' });
