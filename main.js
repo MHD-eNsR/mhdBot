@@ -41,6 +41,7 @@ const { autoreadCommand, isAutoreadEnabled, handleAutoread } = require('./comman
 
 // Command imports
 const tagAllCommand = require('./commands/tagall');
+const { reactForCommand, denyReact } = require('./lib/cmdReact');
 const helpCommand = require('./commands/help');
 const banCommand = require('./commands/ban');
 const { promoteCommand } = require('./commands/promote');
@@ -261,6 +262,7 @@ async function handleMessages(sock, messageUpdate, printLog) {
         const isOwnerOrSudoCheck = message.key.fromMe || senderIsOwnerOrSudo;
         // Check if user is banned (skip ban check for unban command)
         if (isBanned(senderId) && !userMessage.startsWith('.unban')) {
+            denyReact(sock, chatId, message, userMessage);
             // Only respond occasionally to avoid spam
             if (Math.random() < 0.1) {
                 await sock.sendMessage(chatId, {
@@ -333,6 +335,7 @@ async function handleMessages(sock, messageUpdate, printLog) {
         }
         // In private mode, only owner/sudo can run commands
         if (!isPublic && !isOwnerOrSudoCheck) {
+            denyReact(sock, chatId, message, userMessage);
             return;
         }
 
@@ -386,6 +389,11 @@ async function handleMessages(sock, messageUpdate, printLog) {
 
         // Command handlers - Execute commands immediately without waiting for typing indicator
         // We'll show typing indicator after command execution if needed
+        // ريأكشن مناسب على رسالة الامر (البنج بيعمل الريأكشن بتاعه بنفسه)
+        if (!userMessage.startsWith('.ping') && !userMessage.startsWith('.بنج')) {
+            reactForCommand(sock, chatId, message, userMessage);
+        }
+
         let commandExecuted = false;
 
         switch (true) {

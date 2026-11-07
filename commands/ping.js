@@ -22,7 +22,7 @@ function formatTime(seconds) {
 async function pingCommand(sock, chatId, message) {
     try {
         const start = Date.now();
-        await sock.sendMessage(chatId, { text: '🏓', __raw: true }, { quoted: message });
+        await sock.sendMessage(chatId, { react: { text: '🏓', key: message.key } });
         const end = Date.now();
         const ping = Math.round((end - start) / 2);
         const uptimeFormatted = formatTime(process.uptime());
