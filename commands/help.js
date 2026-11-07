@@ -161,7 +161,7 @@ async function helpCommand(sock, chatId, message) {
 
     const sections = [{
         title: `📂┊ ${fancy(botName + ' MENU')} ┊📂`,
-        highlight_label: fancy('DEV MHD'),
+        highlight_label: '👑 ' + fancy('DEV MHD', 4),
         rows: SECTIONS.map(([icon, title], idx) => ({
             header: `📑┊قسم ${idx + 1} :`,
             title: `「${icon}┊${title}┊${icon}」`,

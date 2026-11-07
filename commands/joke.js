@@ -1,5 +1,4 @@
 // نكت عربي مصري محلية ومش بتعتمد على اي نت
-const { BAR, footer } = require('../lib/style');
 
 const JOKES = [
     'واحد قال لصاحبه انا مبسوط اوي النهاردة\nقاله ليه\nقاله لقيت نص جنيه في جيبي القديم\nقاله والنص التاني فين\nقاله ده اللي كان في الجيب الجديد',
@@ -53,7 +52,7 @@ module.exports = async function (sock, chatId, message) {
             i = Math.floor(Math.random() * JOKES.length);
         } while (JOKES.length > 1 && i === lastIndex);
         lastIndex = i;
-        await sock.sendMessage(chatId, { text: [BAR, '│😂┊ *نكتة*', BAR, ...JOKES[i].split('\n').map((l) => `_${l}_`), '', footer()].join('\n') }, message ? { quoted: message } : undefined);
+        await sock.sendMessage(chatId, { text: ['😂 *نكتة*', ...JOKES[i].split('\n').map((l) => `_${l}_`)].join('\n') }, message ? { quoted: message } : undefined);
     } catch (error) {
         console.error('Error sending joke:', error);
         await sock.sendMessage(chatId, { text: 'معرفتش اجيب نكتة دلوقتي' });

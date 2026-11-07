@@ -1,6 +1,6 @@
 const os = require('os');
 const settings = require('../settings.js');
-const { b, i, c, BAR, footer } = require('../lib/style');
+const { b, i, c } = require('../lib/style');
 
 function formatTime(seconds) {
     const days = Math.floor(seconds / (24 * 60 * 60));
@@ -28,13 +28,10 @@ async function pingCommand(sock, chatId, message) {
         const uptimeFormatted = formatTime(process.uptime());
 
         const botInfo = [
-            BAR,
-            `│🏓┊ ${b('بنج:')} ${c(ping + 'ms')}`,
-            `│⏱️┊ ${b('مدة التشغيل:')} ${i(uptimeFormatted)}`,
-            `│⚙️┊ ${b('الاصدار:')} ${c('v' + settings.version)}`,
-            `│👑┊ ${b('المطور:')} ${settings.botOwner || 'MHD'}`,
-            BAR,
-            footer()
+            `🏓 ${b('بنج:')} ${c(ping + 'ms')}`,
+            `⏱️ ${b('مدة التشغيل:')} ${i(uptimeFormatted)}`,
+            `⚙️ ${b('الاصدار:')} ${c('v' + settings.version)}`,
+            `👑 ${b('المطور:')} ${settings.botOwner || 'MHD'}`
         ].join('\n');
 
         await sock.sendMessage(chatId, { text: botInfo }, { quoted: message });
